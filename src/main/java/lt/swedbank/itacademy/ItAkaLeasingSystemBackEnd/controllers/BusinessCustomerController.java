@@ -17,20 +17,19 @@ import java.util.List;
  */
 @RestController
 @CrossOrigin
+@RequestMapping("/")
 public class BusinessCustomerController {
 
     @Autowired
     private BusinessCustomerService businessCustomerService;
 
-    //@RequestMapping("")
+    @RequestMapping("/businessCustomers")
     public List<BusinessCustomerResponse> getAllBusinessCustomers(){
         return businessCustomerService.getAllBusinessCustomers();
     }
 
-    //@RequestMapping("")
+    @RequestMapping("/businessCustomers/add")
     public BusinessCustomerResponse addBusinessCustomer(@Valid @RequestBody BusinessCustomer businessCustomer){
         return new BusinessCustomerResponse(businessCustomerService.addNewBusinessCustomer(businessCustomer));
     }
-
-
 }

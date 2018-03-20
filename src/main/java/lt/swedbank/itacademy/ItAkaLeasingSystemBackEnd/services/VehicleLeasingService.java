@@ -23,8 +23,8 @@ public class VehicleLeasingService {
         VehicleLeasing newVehicleLeasing = new VehicleLeasing();
 
         newVehicleLeasing.setEnginePower(vehicleLeasing.getEnginePower());
-        newVehicleLeasing.setManufactorer(vehicleLeasing.getManufactorer());
-        newVehicleLeasing.setManufactoringDate(vehicleLeasing.getManufactoringDate());
+        newVehicleLeasing.setManufacturer(vehicleLeasing.getManufacturer());
+        newVehicleLeasing.setManufacturingDate(vehicleLeasing.getManufacturingDate());
         newVehicleLeasing.setModel(vehicleLeasing.getModel());
         newVehicleLeasing.setAdvancePaymentAmount(vehicleLeasing.getAdvancePaymentAmount());
         newVehicleLeasing.setAdvancePaymentPercent(vehicleLeasing.getAdvancePaymentPercent());

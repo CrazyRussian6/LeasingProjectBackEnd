@@ -1,7 +1,5 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 
-import org.springframework.data.annotation.Id;
-
 import javax.validation.constraints.NotNull;
 
 public class Customer {
@@ -13,7 +11,7 @@ public class Customer {
     private String phoneNumber;
 
     @NotNull
-    private String adress;
+    private String address;
 
     public String getEmail() {
         return email;
@@ -31,11 +29,11 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

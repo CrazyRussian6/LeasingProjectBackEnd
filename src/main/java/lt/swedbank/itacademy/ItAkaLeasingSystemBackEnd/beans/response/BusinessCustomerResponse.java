@@ -15,7 +15,7 @@ public class BusinessCustomerResponse extends CustomerResponse{
     }
 
     public BusinessCustomerResponse(BusinessCustomer businessCustomer) {
-        super(businessCustomer.getEmail(), businessCustomer.getPhoneNumber(), businessCustomer.getAdress());
+        super(businessCustomer.getEmail(), businessCustomer.getPhoneNumber(), businessCustomer.getAddress());
         this.companyID = businessCustomer.getCompanyID();
         this.companyName = businessCustomer.getCompanyName();
     }

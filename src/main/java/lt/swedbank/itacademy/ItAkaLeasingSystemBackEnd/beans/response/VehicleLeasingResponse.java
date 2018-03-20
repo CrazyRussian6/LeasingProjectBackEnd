@@ -2,8 +2,6 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.VehicleLeasing;
 
-import java.math.BigDecimal;
-
 /**
  * Created by Lukas on 2018-03-20.
  */
@@ -25,9 +23,9 @@ public class VehicleLeasingResponse extends LeasingResponse {
         super(vehicleLeasing.getAdvancePaymentPercent(), vehicleLeasing.getAdvancePaymentAmount(),
                 vehicleLeasing.getLeasingPeriod(), vehicleLeasing.getMargin(),
                 vehicleLeasing.getContractFee(), vehicleLeasing.getAssetPrice(), vehicleLeasing.getPaymentDate());
-        this.manufactorer = vehicleLeasing.getManufactorer();
+        this.manufactorer = vehicleLeasing.getManufacturer();
         this.model = vehicleLeasing.getModel();
-        this.manufactoringDate = Integer.toString(vehicleLeasing.getManufactoringDate());
+        this.manufactoringDate = Integer.toString(vehicleLeasing.getManufacturingDate());
         this.enginePower = Integer.toString(vehicleLeasing.getEnginePower());
     }
 

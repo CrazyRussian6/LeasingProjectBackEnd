@@ -1,5 +1,6 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
@@ -7,6 +8,9 @@ import javax.validation.constraints.NotNull;
 public class BusinessCustomer extends Customer {
 
     @Id
+    private ObjectId id;
+
+    @NotNull
     private String companyID;
 
     @NotNull
@@ -28,7 +32,11 @@ public class BusinessCustomer extends Customer {
         this.companyName = companyName;
     }
 
+    public ObjectId getId() {
+        return id;
+    }
 
-
-
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 }

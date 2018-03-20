@@ -32,7 +32,7 @@ public class BusinessCustomerService {
 
         newBusinessCustomer.setCompanyID(businessCustomer.getCompanyID());
         newBusinessCustomer.setCompanyName(businessCustomer.getCompanyName());
-        newBusinessCustomer.setAdress(businessCustomer.getAdress());
+        newBusinessCustomer.setAddress(businessCustomer.getAddress());
         newBusinessCustomer.setEmail(businessCustomer.getEmail());
         newBusinessCustomer.setPhoneNumber(businessCustomer.getPhoneNumber());
 

@@ -1,4 +1,4 @@
-package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd;
+package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Leasing;
 
@@ -10,11 +10,9 @@ import java.math.BigDecimal;
 public class LeasingUtils {
 
     public static BigDecimal calculateAdvancePaymentAmount(Leasing leasing) {
-        BigDecimal advancePaymentAmount = BigDecimal.ZERO;
         BigDecimal paymentPercentagePercent = leasing.getAdvancePaymentPercent()
                 .divide(new BigDecimal(100), BigDecimal.ROUND_CEILING)
                 .setScale(3, BigDecimal.ROUND_CEILING);
-        advancePaymentAmount = paymentPercentagePercent.multiply(leasing.getAssetPrice());
-        return advancePaymentAmount;
+        return paymentPercentagePercent.multiply(leasing.getAssetPrice());
     }
 }

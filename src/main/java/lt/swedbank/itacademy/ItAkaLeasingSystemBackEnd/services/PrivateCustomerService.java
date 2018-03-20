@@ -1,8 +1,6 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
 
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.BusinessCustomer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.PrivateCustomer;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.PrivateCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import java.util.List;
  */
 @Service
 public class PrivateCustomerService {
+
     @Autowired
     private PrivateCustomerRepository privateCustomerRepository;
 
@@ -26,7 +25,7 @@ public class PrivateCustomerService {
         newPrivateCustomer.setFirstName(privateCustomer.getFirstName());
         newPrivateCustomer.setLastName(privateCustomer.getLastName());
         newPrivateCustomer.setPrivateID(privateCustomer.getPrivateID());
-        newPrivateCustomer.setAdress(privateCustomer.getAdress());
+        newPrivateCustomer.setAddress(privateCustomer.getAddress());
         newPrivateCustomer.setEmail(privateCustomer.getEmail());
         newPrivateCustomer.setPhoneNumber(privateCustomer.getPhoneNumber());
 

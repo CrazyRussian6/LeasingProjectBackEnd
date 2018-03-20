@@ -1,28 +1,33 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 public class VehicleLeasing extends Leasing {
 
+    @Id
+    private ObjectId id;
+
     @NotNull
-    private String manufactorer;
+    private String manufacturer;
 
     @NotNull
     private String model;
 
     @NotNull
-    private int manufactoringDate;
+    private int manufacturingDate;
 
     @NotNull
     private int enginePower;
 
-    public String getManufactorer() {
-        return manufactorer;
+    public String getManufacturer() {
+        return manufacturer;
     }
 
-    public void setManufactorer(String manufactorer) {
-        this.manufactorer = manufactorer;
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
     public String getModel() {
@@ -33,12 +38,12 @@ public class VehicleLeasing extends Leasing {
         this.model = model;
     }
 
-    public int getManufactoringDate() {
-        return manufactoringDate;
+    public int getManufacturingDate() {
+        return manufacturingDate;
     }
 
-    public void setManufactoringDate(int manufactoringDate) {
-        this.manufactoringDate = manufactoringDate;
+    public void setManufacturingDate(int manufacturingDate) {
+        this.manufacturingDate = manufacturingDate;
     }
 
     public int getEnginePower() {
@@ -47,5 +52,13 @@ public class VehicleLeasing extends Leasing {
 
     public void setEnginePower(int enginePower) {
         this.enginePower = enginePower;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 }
