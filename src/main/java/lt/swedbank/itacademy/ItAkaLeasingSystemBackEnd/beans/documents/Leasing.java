@@ -25,7 +25,7 @@ public class Leasing {
     private BigDecimal assetPrice;
 
     @NotNull
-    private Date paymentDate;
+    private int paymentDate;
 
     public BigDecimal getAdvancePaymentPercent() {
         return advancePaymentPercent;
@@ -75,11 +75,11 @@ public class Leasing {
         this.assetPrice = assetPrice;
     }
 
-    public Date getPaymentDate() {
+    public int getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(int paymentDate) {
         this.paymentDate = paymentDate;
     }
 }

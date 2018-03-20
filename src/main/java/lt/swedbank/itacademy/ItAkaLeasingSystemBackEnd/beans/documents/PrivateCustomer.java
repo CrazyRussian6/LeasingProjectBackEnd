@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 
 public class PrivateCustomer extends Customer {
 
-
     @Id
     private String privateID;
 

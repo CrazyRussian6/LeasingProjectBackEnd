@@ -12,7 +12,7 @@ public class VehicleLeasing extends Leasing {
     private String model;
 
     @NotNull
-    private Date manufactoringDate;
+    private int manufactoringDate;
 
     @NotNull
     private int enginePower;
@@ -33,11 +33,11 @@ public class VehicleLeasing extends Leasing {
         this.model = model;
     }
 
-    public Date getManufactoringDate() {
+    public int getManufactoringDate() {
         return manufactoringDate;
     }
 
-    public void setManufactoringDate(Date manufactoringDate) {
+    public void setManufactoringDate(int manufactoringDate) {
         this.manufactoringDate = manufactoringDate;
     }
 

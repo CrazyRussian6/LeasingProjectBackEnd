@@ -1,5 +1,6 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories;
 
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.VehicleLeasing;
 import org.springframework.data.repository.CrudRepository;
 
 /**
