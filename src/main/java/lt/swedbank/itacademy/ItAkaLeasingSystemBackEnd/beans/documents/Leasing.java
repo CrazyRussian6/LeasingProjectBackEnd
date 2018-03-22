@@ -14,6 +14,7 @@ public class Leasing {
     private BigDecimal advancePaymentPercent;
 
     @NotNull(message = "advance payment amount must be specified")
+    @Min(value = 0, message = "advance payment amount can not be less than 0")
     private BigDecimal advancePaymentAmount;
 
     @NotNull(message = "leasing period must be specified")
@@ -30,6 +31,7 @@ public class Leasing {
     private BigDecimal contractFee;
 
     @NotNull(message = "asset price must be specified")
+    @Min(value = 0, message = "asset price can not be less than 0")
     private BigDecimal assetPrice;
 
     @NotNull(message = "payment date must be specified")
