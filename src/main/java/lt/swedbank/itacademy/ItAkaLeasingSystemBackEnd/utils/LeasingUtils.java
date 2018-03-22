@@ -9,10 +9,14 @@ import java.math.BigDecimal;
  */
 public class LeasingUtils {
 
-    public static BigDecimal calculateAdvancePaymentAmount(Leasing leasing) {
+    public static BigDecimal calculateAdvancePaymentAmount(Leasing leasing) throws IllegalArgumentException{
         BigDecimal paymentPercentagePercent = leasing.getAdvancePaymentPercent()
                 .divide(new BigDecimal(100), BigDecimal.ROUND_CEILING)
                 .setScale(3, BigDecimal.ROUND_CEILING);
+        BigDecimal advancePaymentAmount = paymentPercentagePercent.multiply(leasing.getAssetPrice());
+        if(advancePaymentAmount.compareTo(BigDecimal.ZERO) <= 0){
+            throw new IllegalArgumentException("Advance payment amount can not be below zero");
+        }
         return paymentPercentagePercent.multiply(leasing.getAssetPrice());
     }
 }

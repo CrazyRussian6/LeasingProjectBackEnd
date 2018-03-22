@@ -10,10 +10,10 @@ public class BusinessCustomer extends Customer {
     @Id
     private ObjectId id;
 
-    @NotNull
+    @NotNull(message = "company ID must be specified")
     private String companyID;
 
-    @NotNull
+    @NotNull(message = "company name must be specified")
     private String companyName;
 
     public String getCompanyID() {

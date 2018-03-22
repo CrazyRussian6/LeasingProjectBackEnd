@@ -4,10 +4,7 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.BusinessC
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.BusinessCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,18 +14,18 @@ import java.util.List;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/")
+@RequestMapping(value = "/")
 public class BusinessCustomerController {
 
     @Autowired
     private BusinessCustomerService businessCustomerService;
 
-    @RequestMapping("/businessCustomers")
+    @RequestMapping(value = "/businessCustomers")
     public List<BusinessCustomerResponse> getAllBusinessCustomers(){
         return businessCustomerService.getAllBusinessCustomers();
     }
 
-    @RequestMapping("/businessCustomers/add")
+    @RequestMapping(value = "/businessCustomers/add", method = RequestMethod.POST)
     public BusinessCustomerResponse addBusinessCustomer(@Valid @RequestBody BusinessCustomer businessCustomer){
         return new BusinessCustomerResponse(businessCustomerService.addNewBusinessCustomer(businessCustomer));
     }

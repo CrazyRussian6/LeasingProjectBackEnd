@@ -1,29 +1,39 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 
-import javax.validation.constraints.NotNull;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.constraints.LeasingPeriodStepConstraint;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.constraints.PaymentDateValueConstraint;
+
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class Leasing {
 
-    @NotNull
+    @NotNull(message = "advance payment percent must be specified")
+    @DecimalMin(value = "10", message = "advance payment percentage can not be less than 10 percent")
+    @DecimalMax(value = "100", message = "advance payment percentage can not be greater than 100")
     private BigDecimal advancePaymentPercent;
 
-    @NotNull
+    @NotNull(message = "advance payment amount must be specified")
     private BigDecimal advancePaymentAmount;
 
-    @NotNull
+    @NotNull(message = "leasing period must be specified")
+    @Min(value = 6, message = "leasing period can not be less than 6 months")
+    @Max(value = 84, message = "leasing period can not be more than 84 months")
+    @LeasingPeriodStepConstraint(message = "leasing period must be divisible by 6")
     private int leasingPeriod;
 
-    @NotNull
+    @NotNull(message = "margin must be specified")
+    @DecimalMin(value = "3.2", message = "margin can not be less than 3.2%")
     private BigDecimal margin;
 
-    @NotNull
+    @NotNull(message = "contract fee must be specified")
     private BigDecimal contractFee;
 
-    @NotNull
+    @NotNull(message = "asset price must be specified")
     private BigDecimal assetPrice;
 
-    @NotNull
+    @NotNull(message = "payment date must be specified")
+    @PaymentDateValueConstraint(value = {15, 30})
     private int paymentDate;
 
     public BigDecimal getAdvancePaymentPercent() {
