@@ -3,6 +3,7 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class VehicleLeasing extends Leasing {
@@ -10,16 +11,18 @@ public class VehicleLeasing extends Leasing {
     @Id
     private ObjectId id;
 
-    @NotNull
+    @NotNull(message = "manufacturer must be specified")
     private String manufacturer;
 
-    @NotNull
+    @NotNull(message = "model must be specified")
     private String model;
 
-    @NotNull
+    @NotNull(message = "manufacturing date must be specified")
+    @Min(value = 2000, message = "manufacturing date can not be less than 2000")
     private int manufacturingDate;
 
-    @NotNull
+    @NotNull(message = "engine power must be specified")
+    @Min(value = 0, message = "engine power must be greater than 0")
     private int enginePower;
 
     public String getManufacturer() {

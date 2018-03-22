@@ -4,10 +4,7 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.VehicleLe
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.VehicleLeasingResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.VehicleLeasingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,18 +14,18 @@ import java.util.List;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/")
+@RequestMapping(value = "/")
 public class VehicleLeasingController {
 
     @Autowired
     private VehicleLeasingService vehicleLeasingService;
 
-    @RequestMapping("/vehicleLeasings")
+    @RequestMapping(value = "/vehicleLeasings")
     public List<VehicleLeasingResponse> getAllVehicleLeasings() {
         return vehicleLeasingService.getAllVehicleLeasings();
     }
 
-    @RequestMapping("/vehicleLeasings/add")
+    @RequestMapping(value = "/vehicleLeasings/add", method = RequestMethod.POST)
     public VehicleLeasingResponse addVehicleLeasing(@Valid @RequestBody VehicleLeasing vehicleLeasing) {
         return new VehicleLeasingResponse(vehicleLeasingService.addNewVehicleLeasing(vehicleLeasing));
     }

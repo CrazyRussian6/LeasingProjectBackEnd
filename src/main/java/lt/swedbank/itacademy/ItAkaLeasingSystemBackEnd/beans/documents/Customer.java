@@ -1,16 +1,18 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 public class Customer {
 
-    @NotNull
+    @NotNull(message = "email must be specified")
+    @Email(message = "email must be correct")
     private String email;
 
-    @NotNull
+    @NotNull(message = "phoneNumber must be specified")
     private String phoneNumber;
 
-    @NotNull
+    @NotNull(message = "address must be specified")
     private String address;
 
     public String getEmail() {
