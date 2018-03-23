@@ -11,11 +11,14 @@ public class BusinessCustomerResponse extends CustomerResponse{
 
     private String companyName;
 
+    private String id;
+
     public BusinessCustomerResponse() {
     }
 
     public BusinessCustomerResponse(BusinessCustomer businessCustomer) {
         super(businessCustomer.getEmail(), businessCustomer.getPhoneNumber(), businessCustomer.getAddress());
+        this.id = businessCustomer.getId().toString();
         this.companyID = businessCustomer.getCompanyID();
         this.companyName = businessCustomer.getCompanyName();
     }
@@ -34,5 +37,13 @@ public class BusinessCustomerResponse extends CustomerResponse{
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

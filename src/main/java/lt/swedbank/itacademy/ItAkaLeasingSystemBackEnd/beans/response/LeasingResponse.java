@@ -1,6 +1,5 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -22,12 +21,15 @@ public abstract class LeasingResponse extends Response{
 
     private String paymentDate;
 
+    private String customerID;
+
     public LeasingResponse(){
 
     }
 
     public LeasingResponse(BigDecimal advancePaymentPercent, BigDecimal advancePaymentAmount, int leasingPeriod,
-                           BigDecimal margin, BigDecimal contractFee, BigDecimal assetPrice, int paymentDate) {
+                           BigDecimal margin, BigDecimal contractFee, BigDecimal assetPrice, int paymentDate,
+                           String customerID) {
         this.advancePaymentPercent = advancePaymentPercent.toString();
         this.advancePaymentAmount = advancePaymentAmount.toString();
         this.leasingPeriod = Integer.toString(leasingPeriod);
@@ -35,6 +37,7 @@ public abstract class LeasingResponse extends Response{
         this.contractFee = contractFee.toString();
         this.assetPrice = assetPrice.toString();
         this.paymentDate = Integer.toString(paymentDate);
+        this.customerID = customerID;
     }
 
     public String getAdvancePaymentPercent() {
@@ -91,5 +94,13 @@ public abstract class LeasingResponse extends Response{
 
     public void setPaymentDate(String paymentDate) {
         this.paymentDate = paymentDate;
+    }
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 }

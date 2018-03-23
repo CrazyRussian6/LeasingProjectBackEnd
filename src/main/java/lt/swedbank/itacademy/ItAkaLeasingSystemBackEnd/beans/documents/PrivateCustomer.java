@@ -4,7 +4,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class PrivateCustomer extends Customer {
 
@@ -12,7 +11,6 @@ public class PrivateCustomer extends Customer {
     private ObjectId id;
 
     @NotNull(message = "private ID must be specified")
-    @Size(min = 11, max = 11, message = "private ID must be 11 symbols length")
     private String privateID;
 
     @NotNull(message = "first name must be specified")
