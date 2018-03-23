@@ -7,11 +7,11 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.VehicleLe
  */
 public class VehicleLeasingResponse extends LeasingResponse {
 
-    private String manufactorer;
+    private String manufacturer;
 
     private String model;
 
-    private String manufactoringDate;
+    private String manufacturingDate;
 
     private String enginePower;
 
@@ -22,19 +22,20 @@ public class VehicleLeasingResponse extends LeasingResponse {
     public VehicleLeasingResponse(VehicleLeasing vehicleLeasing) {
         super(vehicleLeasing.getAdvancePaymentPercent(), vehicleLeasing.getAdvancePaymentAmount(),
                 vehicleLeasing.getLeasingPeriod(), vehicleLeasing.getMargin(),
-                vehicleLeasing.getContractFee(), vehicleLeasing.getAssetPrice(), vehicleLeasing.getPaymentDate());
-        this.manufactorer = vehicleLeasing.getManufacturer();
+                vehicleLeasing.getContractFee(), vehicleLeasing.getAssetPrice(), vehicleLeasing.getPaymentDate(),
+                vehicleLeasing.getCustomerID());
+        this.manufacturer = vehicleLeasing.getManufacturer();
         this.model = vehicleLeasing.getModel();
-        this.manufactoringDate = Integer.toString(vehicleLeasing.getManufacturingDate());
+        this.manufacturingDate = Integer.toString(vehicleLeasing.getManufacturingDate());
         this.enginePower = Integer.toString(vehicleLeasing.getEnginePower());
     }
 
-    public String getManufactorer() {
-        return manufactorer;
+    public String getManufacturer() {
+        return manufacturer;
     }
 
-    public void setManufactorer(String manufactorer) {
-        this.manufactorer = manufactorer;
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
     public String getModel() {
@@ -45,12 +46,12 @@ public class VehicleLeasingResponse extends LeasingResponse {
         this.model = model;
     }
 
-    public String getManufactoringDate() {
-        return manufactoringDate;
+    public String getManufacturingDate() {
+        return manufacturingDate;
     }
 
-    public void setManufactoringDate(String manufactoringDate) {
-        this.manufactoringDate = manufactoringDate;
+    public void setManufacturingDate(String manufacturingDate) {
+        this.manufacturingDate = manufacturingDate;
     }
 
     public String getEnginePower() {

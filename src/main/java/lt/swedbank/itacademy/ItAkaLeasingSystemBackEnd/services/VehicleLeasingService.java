@@ -33,6 +33,7 @@ public class VehicleLeasingService {
         newVehicleLeasing.setMargin(vehicleLeasing.getMargin());
         newVehicleLeasing.setLeasingPeriod(vehicleLeasing.getLeasingPeriod());
         newVehicleLeasing.setPaymentDate(vehicleLeasing.getPaymentDate());
+        newVehicleLeasing.setCustomerID(vehicleLeasing.getCustomerID());
 
         return vehicleLeasingRepository.save(newVehicleLeasing);
     }

@@ -22,6 +22,7 @@ public class PrivateCustomerService {
     public PrivateCustomer addNewPrivateCustomer(@Valid PrivateCustomer privateCustomer){
         PrivateCustomer newPrivateCustomer = new PrivateCustomer();
 
+        newPrivateCustomer.setId(privateCustomer.getId());
         newPrivateCustomer.setFirstName(privateCustomer.getFirstName());
         newPrivateCustomer.setLastName(privateCustomer.getLastName());
         newPrivateCustomer.setPrivateID(privateCustomer.getPrivateID());

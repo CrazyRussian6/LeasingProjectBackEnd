@@ -30,6 +30,7 @@ public class BusinessCustomerService {
     public BusinessCustomer addNewBusinessCustomer(@Valid BusinessCustomer businessCustomer){
         BusinessCustomer newBusinessCustomer = new BusinessCustomer();
 
+        newBusinessCustomer.setId(businessCustomer.getId());
         newBusinessCustomer.setCompanyID(businessCustomer.getCompanyID());
         newBusinessCustomer.setCompanyName(businessCustomer.getCompanyName());
         newBusinessCustomer.setAddress(businessCustomer.getAddress());

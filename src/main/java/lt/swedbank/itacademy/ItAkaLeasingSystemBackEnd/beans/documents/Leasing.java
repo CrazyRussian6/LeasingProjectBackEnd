@@ -20,11 +20,12 @@ public class Leasing {
     @NotNull(message = "leasing period must be specified")
     @Min(value = 6, message = "leasing period can not be less than 6 months")
     @Max(value = 84, message = "leasing period can not be more than 84 months")
-    @LeasingPeriodStepConstraint(message = "leasing period must be divisible by 6")
+    @LeasingPeriodStepConstraint(message = "incorrect leasing period")
     private int leasingPeriod;
 
     @NotNull(message = "margin must be specified")
     @DecimalMin(value = "3.2", message = "margin can not be less than 3.2%")
+    @DecimalMax(value = "100", message = "margin can not be greater than 100%")
     private BigDecimal margin;
 
     @NotNull(message = "contract fee must be specified")
@@ -37,6 +38,17 @@ public class Leasing {
     @NotNull(message = "payment date must be specified")
     @PaymentDateValueConstraint(value = {15, 30})
     private int paymentDate;
+
+    @NotNull(message = "leasing must be assigned to customer")
+    private String customerID;
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
 
     public BigDecimal getAdvancePaymentPercent() {
         return advancePaymentPercent;
