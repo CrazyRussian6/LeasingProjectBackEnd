@@ -1,14 +1,14 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
+@Entity(name = "BusinessCustomer")
+//@Table(name = "customers")
+@Component
 public class BusinessCustomer extends Customer {
-
-    @Id
-    private ObjectId id;
 
     @NotNull(message = "company ID must be specified")
     private String companyID;
@@ -30,13 +30,5 @@ public class BusinessCustomer extends Customer {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
-    }
-
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
     }
 }
