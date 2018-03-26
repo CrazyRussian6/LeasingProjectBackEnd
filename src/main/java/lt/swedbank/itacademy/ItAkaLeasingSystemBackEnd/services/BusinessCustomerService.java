@@ -1,4 +1,4 @@
-package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
+/*package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.BusinessCustomer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
@@ -10,9 +10,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Lukas on 2018-03-20.
- */
 @Service
 public class BusinessCustomerService {
 
@@ -40,3 +37,4 @@ public class BusinessCustomerService {
         return businessCustomerRepository.save(newBusinessCustomer);
     }
 }
+*/
