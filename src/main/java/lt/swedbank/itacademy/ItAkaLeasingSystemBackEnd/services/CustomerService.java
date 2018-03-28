@@ -1,5 +1,7 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.mongodb.util.JSON;
 import jdk.nashorn.internal.parser.JSONParser;
@@ -37,7 +39,12 @@ public class CustomerService {
         for (CustomerResponse user : customers) {
             if (login.getUserId().equals(user.getUserID()) && login.getPassword().equals(user.getPassword())) {
                 if (login.getUserId().equals(login.getPassword())) {
-                    return "ChangePassword";
+                    ObjectMapper mapper = new ObjectMapper();
+                    try {
+                        return mapper.writeValueAsString("Password exists");
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return user;
             }
