@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity(name = "PrivateCustomer")
 //@Table(name = "customers")
@@ -11,12 +12,15 @@ import javax.validation.constraints.NotNull;
 public class PrivateCustomer extends Customer {
 
     @NotNull(message = "private ID must be specified")
+    @Size(max=20, message= "private id must can be maximum 20 symbols length")
     private String privateID;
 
     @NotNull(message = "first name must be specified")
+    @Size(min=2, max=100, message = "first name must be shorter then 100 symbols")
     private String firstName;
 
     @NotNull(message = "last name must be specified")
+    @Size(min=2, max=100, message="last name must be shorter then 100 symbols")
     private String lastName;
 
     public String getPrivateID() {

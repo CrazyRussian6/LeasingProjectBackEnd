@@ -13,7 +13,7 @@ public class PrivateCustomerResponse extends CustomerResponse {
 
     private String lastName;
 
-    public PrivateCustomerResponse(){
+    public PrivateCustomerResponse() {
 
     }
 

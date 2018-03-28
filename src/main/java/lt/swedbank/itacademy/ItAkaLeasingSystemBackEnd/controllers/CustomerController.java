@@ -1,6 +1,8 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.BusinessCustomer;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Login;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.PrivateCustomer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
@@ -41,6 +43,7 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return customerService.getAllCustomers();
     }
 
+
     @RequestMapping(value = "/customers/addBusinessCustomer", method = RequestMethod.POST)
     public BusinessCustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
         BusinessCustomerResponse ifExists = customerService.ifExistsBusinessCustomer(customer.getCompanyID(), customer.getCompanyName());
@@ -48,7 +51,13 @@ public class CustomerController extends ResponseEntityExceptionHandler {
             System.out.println("BusinessCustomer exists");
             return ifExists;
         }
+
         return new BusinessCustomerResponse(customerService.addNewBusinessCustomer(customer));
+    }
+
+    @RequestMapping(value = "/customers/login", method = RequestMethod.POST)
+    public Object Login(@RequestBody Login loginData){
+        return customerService.login(loginData);
     }
 
     @RequestMapping(value = "/customers/addPrivateCustomer", method = RequestMethod.POST)
