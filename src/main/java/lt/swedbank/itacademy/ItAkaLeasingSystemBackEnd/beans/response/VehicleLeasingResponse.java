@@ -23,7 +23,7 @@ public class VehicleLeasingResponse extends LeasingResponse {
         super(vehicleLeasing.getAdvancePaymentPercent(), vehicleLeasing.getAdvancePaymentAmount(),
                 vehicleLeasing.getLeasingPeriod(), vehicleLeasing.getMargin(),
                 vehicleLeasing.getContractFee(), vehicleLeasing.getAssetPrice(), vehicleLeasing.getPaymentDate(),
-                vehicleLeasing.getCustomerID());
+                vehicleLeasing.getCustomerID(), vehicleLeasing.getSubmissionDate(), vehicleLeasing.getLeasingStatus());
         this.manufacturer = vehicleLeasing.getManufacturer();
         this.model = vehicleLeasing.getModel();
         this.manufacturingDate = Integer.toString(vehicleLeasing.getManufacturingDate());

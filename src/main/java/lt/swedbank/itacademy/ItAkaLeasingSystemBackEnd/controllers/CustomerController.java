@@ -42,12 +42,22 @@ public class CustomerController extends ResponseEntityExceptionHandler {
     }
 
     @RequestMapping(value = "/customers/addBusinessCustomer", method = RequestMethod.POST)
-    public CustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
+    public BusinessCustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
+        BusinessCustomerResponse ifExists = customerService.ifExistsBusinessCustomer(customer.getCompanyID(), customer.getCompanyName());
+        if(ifExists != null){
+            System.out.println("BusinessCustomer exists");
+            return ifExists;
+        }
         return new BusinessCustomerResponse(customerService.addNewBusinessCustomer(customer));
     }
 
     @RequestMapping(value = "/customers/addPrivateCustomer", method = RequestMethod.POST)
     public CustomerResponse addCustomer(@Valid @RequestBody PrivateCustomer customer){
+        PrivateCustomerResponse ifExists = customerService.ifExistsPrivateCustomer(customer.getPrivateID(), customer.getFirstName(), customer.getLastName());
+        if(ifExists != null){
+            System.out.println("PrivateCustomer exists");
+            return ifExists;
+        }
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
     }
 

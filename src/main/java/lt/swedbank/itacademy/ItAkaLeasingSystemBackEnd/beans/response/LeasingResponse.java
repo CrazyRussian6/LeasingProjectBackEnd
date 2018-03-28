@@ -1,10 +1,10 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response;
 
-import java.math.BigDecimal;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.LeasingStatus;
 
-/**
- * Created by Lukas on 2018-03-20.
- */
+import java.math.BigDecimal;
+import java.util.Date;
+
 public abstract class LeasingResponse extends Response{
 
     private String advancePaymentPercent;
@@ -23,13 +23,17 @@ public abstract class LeasingResponse extends Response{
 
     private String customerID;
 
+    private String submissionDate;
+
+    private String leasingStatus;
+
     public LeasingResponse(){
 
     }
 
     public LeasingResponse(BigDecimal advancePaymentPercent, BigDecimal advancePaymentAmount, int leasingPeriod,
                            BigDecimal margin, BigDecimal contractFee, BigDecimal assetPrice, int paymentDate,
-                           String customerID) {
+                           String customerID, Date submissionDate, LeasingStatus leasingStatus) {
         this.advancePaymentPercent = advancePaymentPercent.toString();
         this.advancePaymentAmount = advancePaymentAmount.toString();
         this.leasingPeriod = Integer.toString(leasingPeriod);
@@ -38,6 +42,8 @@ public abstract class LeasingResponse extends Response{
         this.assetPrice = assetPrice.toString();
         this.paymentDate = Integer.toString(paymentDate);
         this.customerID = customerID;
+        //this.submissionDate = submissionDate.toString();
+        //this.leasingStatus = leasingStatus.toString();
     }
 
     public String getAdvancePaymentPercent() {
@@ -102,5 +108,21 @@ public abstract class LeasingResponse extends Response{
 
     public void setCustomerID(String customerID) {
         this.customerID = customerID;
+    }
+
+    public String getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public void setSubmissionDate(String submissionDate) {
+        this.submissionDate = submissionDate;
+    }
+
+    public String getLeasingStatus() {
+        return leasingStatus;
+    }
+
+    public void setLeasingStatus(String leasingStatus) {
+        this.leasingStatus = leasingStatus;
     }
 }

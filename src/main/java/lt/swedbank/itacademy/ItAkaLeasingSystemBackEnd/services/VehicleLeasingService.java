@@ -10,9 +10,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Lukas on 2018-03-20.
- */
 @Service
 public class VehicleLeasingService {
 
@@ -33,7 +30,11 @@ public class VehicleLeasingService {
         newVehicleLeasing.setMargin(vehicleLeasing.getMargin());
         newVehicleLeasing.setLeasingPeriod(vehicleLeasing.getLeasingPeriod());
         newVehicleLeasing.setPaymentDate(vehicleLeasing.getPaymentDate());
+
         newVehicleLeasing.setCustomerID(vehicleLeasing.getCustomerID());
+
+        newVehicleLeasing.setSubmissionDate(vehicleLeasing.getSubmissionDate());
+        newVehicleLeasing.setLeasingStatus(vehicleLeasing.getLeasingStatus());
 
         return vehicleLeasingRepository.save(newVehicleLeasing);
     }
