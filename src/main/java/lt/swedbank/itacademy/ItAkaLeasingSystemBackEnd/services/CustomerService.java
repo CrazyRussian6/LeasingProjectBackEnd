@@ -38,6 +38,28 @@ public class CustomerService {
         return responses;
     }
 
+    public BusinessCustomerResponse ifExistsBusinessCustomer(String companyID, String companyName){
+        List<Customer> businessCustomers = customerRepository.findCustomersByCustomerType(CustomerType.BUSINESS);
+        for(Customer customer : businessCustomers){
+            BusinessCustomer temp = (BusinessCustomer)customer;
+            if(temp.getCompanyID().equals(companyID) && temp.getCompanyName().equals(companyName)){
+                return new BusinessCustomerResponse(temp);
+            }
+        }
+        return null;
+    }
+
+    public PrivateCustomerResponse ifExistsPrivateCustomer(String privateID, String firstName, String lastName){
+        List<Customer> privateCustomers = customerRepository.findCustomersByCustomerType(CustomerType.PRIVATE);
+        for(Customer customer : privateCustomers){
+            PrivateCustomer temp = (PrivateCustomer) customer;
+            if(temp.getPrivateID().equals(privateID) && temp.getFirstName().equals(firstName) && temp.getLastName().equals(lastName)){
+                return new PrivateCustomerResponse(temp);
+            }
+        }
+        return null;
+    }
+
     public BusinessCustomer addNewBusinessCustomer(@Valid BusinessCustomer businessCustomer){
         BusinessCustomer newBusinessCustomer = new BusinessCustomer();
 
@@ -48,6 +70,7 @@ public class CustomerService {
         newBusinessCustomer.setEmail(businessCustomer.getEmail());
         newBusinessCustomer.setPhoneNumber(businessCustomer.getPhoneNumber());
         newBusinessCustomer.setCustomerType(businessCustomer.getCustomerType());
+        newBusinessCustomer.setCountry(businessCustomer.getCountry());
 
         return customerRepository.save(newBusinessCustomer);
     }
@@ -63,8 +86,8 @@ public class CustomerService {
         newPrivateCustomer.setEmail(privateCustomer.getEmail());
         newPrivateCustomer.setPhoneNumber(privateCustomer.getPhoneNumber());
         newPrivateCustomer.setCustomerType(privateCustomer.getCustomerType());
+        newPrivateCustomer.setCountry(privateCustomer.getCountry());
 
         return customerRepository.save(newPrivateCustomer);
     }
-
 }

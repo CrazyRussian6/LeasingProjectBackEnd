@@ -27,6 +27,14 @@ public class Customer {
     @NotNull(message = "customer type must be specified")
     private CustomerType customerType;
 
+    //@NotNull(message = "customer country must be specified")
+    private String country;
+
+    //@NotNull(message = "customer user ID must be specified")
+    private String userID;
+
+    private String password;
+
     public ObjectId getId() {
         return id;
     }
@@ -65,5 +73,29 @@ public class Customer {
 
     public void setCustomerType(CustomerType customerType) {
         this.customerType = customerType;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

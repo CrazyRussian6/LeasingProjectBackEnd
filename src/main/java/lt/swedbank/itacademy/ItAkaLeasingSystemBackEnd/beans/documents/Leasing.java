@@ -1,10 +1,12 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.LeasingStatus;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.constraints.LeasingPeriodStepConstraint;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.constraints.PaymentDateValueConstraint;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Leasing {
 
@@ -41,6 +43,12 @@ public class Leasing {
 
     @NotNull(message = "leasing must be assigned to customer")
     private String customerID;
+
+    //@NotNull(message = "leasing status must be defined")
+    private LeasingStatus leasingStatus;
+
+    //@NotNull(message = "submission date must be defined")
+    private Date submissionDate;
 
     public String getCustomerID() {
         return customerID;
@@ -104,5 +112,21 @@ public class Leasing {
 
     public void setPaymentDate(int paymentDate) {
         this.paymentDate = paymentDate;
+    }
+
+    public LeasingStatus getLeasingStatus() {
+        return leasingStatus;
+    }
+
+    public void setLeasingStatus(LeasingStatus leasingStatus) {
+        this.leasingStatus = leasingStatus;
+    }
+
+    public Date getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public void setSubmissionDate(Date submissionDate) {
+        this.submissionDate = submissionDate;
     }
 }

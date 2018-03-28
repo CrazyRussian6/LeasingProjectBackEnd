@@ -15,16 +15,20 @@ public class CustomerResponse extends Response{
 
     private String customerType;
 
+    private String country;
+
     public CustomerResponse(){
 
     }
 
-    public CustomerResponse(String id, String email, String phoneNumber, String adress, String customerType) {
+    public CustomerResponse(String id, String email, String phoneNumber,
+                            String adress, String customerType, String country) {
         this.id = id;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.adress = adress;
         this.customerType = customerType;
+        this.country = country;
     }
 
     public String getId() {
@@ -65,5 +69,13 @@ public class CustomerResponse extends Response{
 
     public void setCustomerType(String customerType) {
         this.customerType = customerType;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
