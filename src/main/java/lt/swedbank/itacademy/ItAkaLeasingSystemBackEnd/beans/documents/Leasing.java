@@ -2,6 +2,7 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.constraints.LeasingPeriodStepConstraint;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.constraints.PaymentDateValueConstraint;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -29,10 +30,13 @@ public class Leasing {
     private BigDecimal margin;
 
     @NotNull(message = "contract fee must be specified")
+ //   @Max(value = 1000000000, message = "contract fee can not be greater than 1000000000")
+    @DecimalMax(value="1000000000.00", message = "contract fee must be nummeric format and not greater then 1000000000")
     private BigDecimal contractFee;
 
     @NotNull(message = "asset price must be specified")
     @Min(value = 0, message = "asset price can not be less than 0")
+    @Max(value = 1000000000, message = "asset price can not be greter than 1000000000")
     private BigDecimal assetPrice;
 
     @NotNull(message = "payment date must be specified")

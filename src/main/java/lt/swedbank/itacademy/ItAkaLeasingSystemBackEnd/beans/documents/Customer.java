@@ -2,11 +2,13 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.CustomerType;
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Id;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+import java.math.BigInteger;
 
 @MappedSuperclass
 public class Customer {
@@ -16,12 +18,16 @@ public class Customer {
 
     @NotNull(message = "email must be specified")
     @Email(message = "email must be correct")
+    @Size(max=70, message ="email can't be longer then 70 symbols")
     private String email;
 
     @NotNull(message = "phoneNumber must be specified")
-    private String phoneNumber;
+    //@Size(max=20, message = "phone number can't be longer then 20 symbols")
+    @Digits(integer=20, fraction = 0, message = "phone number can't be longer then 20 symbols")
+    private BigInteger phoneNumber;
 
     @NotNull(message = "address must be specified")
+    @Size(max=500, message = "address can't be longer then 500 symbols" )
     private String address;
 
     @NotNull(message = "customer type must be specified")
@@ -43,11 +49,11 @@ public class Customer {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
+    public BigInteger getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(BigInteger phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
