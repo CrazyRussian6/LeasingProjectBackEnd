@@ -13,13 +13,14 @@ public class PrivateCustomerResponse extends CustomerResponse {
 
     private String lastName;
 
-    public PrivateCustomerResponse(){
+    public PrivateCustomerResponse() {
 
     }
 
     public PrivateCustomerResponse(PrivateCustomer privateCustomer) {
         super(privateCustomer.getId().toString(), privateCustomer.getEmail(),
-                privateCustomer.getPhoneNumber().toString(), privateCustomer.getAddress(), privateCustomer.getCustomerType().toString());
+                privateCustomer.getPhoneNumber(), privateCustomer.getAddress(),
+                privateCustomer.getCustomerType().toString(), privateCustomer.getCountry());
         this.privateID = privateCustomer.getPrivateID();
         this.firstName = privateCustomer.getFirstName();
         this.lastName = privateCustomer.getLastName();

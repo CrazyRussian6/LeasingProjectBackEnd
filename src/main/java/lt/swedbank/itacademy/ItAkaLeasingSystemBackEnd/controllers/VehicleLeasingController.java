@@ -20,12 +20,12 @@ public class VehicleLeasingController {
     @Autowired
     private VehicleLeasingService vehicleLeasingService;
 
-    @RequestMapping(value = "/vehicle/leasings")
+    @RequestMapping(value = "/vehicleLeasings")
     public List<VehicleLeasingResponse> getAllVehicleLeasings() {
         return vehicleLeasingService.getAllVehicleLeasings();
     }
 
-    @RequestMapping(value = "/vehicle/leasings/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/vehicleLeasings/add", method = RequestMethod.POST)
     public VehicleLeasingResponse addVehicleLeasing(@Valid @RequestBody VehicleLeasing vehicleLeasing) {
         return new VehicleLeasingResponse(vehicleLeasingService.addNewVehicleLeasing(vehicleLeasing));
     }

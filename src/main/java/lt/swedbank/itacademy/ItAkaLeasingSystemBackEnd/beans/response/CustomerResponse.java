@@ -1,5 +1,7 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response;
 
+import java.math.BigInteger;
+
 /**
  * Created by Lukas on 2018-03-20.
  */
@@ -9,22 +11,26 @@ public class CustomerResponse extends Response{
 
     private String email;
 
-    private String phoneNumber;
+    private BigInteger phoneNumber;
 
     private String adress;
 
     private String customerType;
 
+    private String country;
+
     public CustomerResponse(){
 
     }
 
-    public CustomerResponse(String id, String email, String phoneNumber, String adress, String customerType) {
+    public CustomerResponse(String id, String email, BigInteger phoneNumber,
+                            String adress, String customerType, String country) {
         this.id = id;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.adress = adress;
         this.customerType = customerType;
+        this.country = country;
     }
 
     public String getId() {
@@ -43,11 +49,11 @@ public class CustomerResponse extends Response{
         this.email = email;
     }
 
-    public String getPhoneNumber() {
+    public BigInteger getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(BigInteger phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -65,5 +71,13 @@ public class CustomerResponse extends Response{
 
     public void setCustomerType(String customerType) {
         this.customerType = customerType;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

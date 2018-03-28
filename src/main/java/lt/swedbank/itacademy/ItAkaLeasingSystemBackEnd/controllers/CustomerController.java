@@ -43,8 +43,15 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return customerService.getAllCustomers();
     }
 
-    @RequestMapping(value = "/customers/add/business/customer", method = RequestMethod.POST)
-    public CustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
+
+    @RequestMapping(value = "/customers/addBusinessCustomer", method = RequestMethod.POST)
+    public BusinessCustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
+        BusinessCustomerResponse ifExists = customerService.ifExistsBusinessCustomer(customer.getCompanyID(), customer.getCompanyName());
+        if(ifExists != null){
+            System.out.println("BusinessCustomer exists");
+            return ifExists;
+        }
+
         return new BusinessCustomerResponse(customerService.addNewBusinessCustomer(customer));
     }
 
@@ -53,8 +60,13 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return customerService.login(loginData);
     }
 
-    @RequestMapping(value = "/customers/add/private/customer", method = RequestMethod.POST)
+    @RequestMapping(value = "/customers/addPrivateCustomer", method = RequestMethod.POST)
     public CustomerResponse addCustomer(@Valid @RequestBody PrivateCustomer customer){
+        PrivateCustomerResponse ifExists = customerService.ifExistsPrivateCustomer(customer.getPrivateID(), customer.getFirstName(), customer.getLastName());
+        if(ifExists != null){
+            System.out.println("PrivateCustomer exists");
+            return ifExists;
+        }
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
     }
 
