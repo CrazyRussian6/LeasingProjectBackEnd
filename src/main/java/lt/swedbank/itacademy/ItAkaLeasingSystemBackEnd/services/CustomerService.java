@@ -37,7 +37,7 @@ public class CustomerService {
         ErrorDetails loginError = new ErrorDetails("LoginError", "LoginError", errorMessage);
         for (CustomerResponse user : customers) {
             //Chenge user.getEmail() to user id and user.getPhoneNumber() to user.password
-            if (login.getUserId().equals(user.getEmail()) && login.getPassword().equals(user.getPhoneNumber())) {
+            if (login.getUserId().equals(user.getEmail()) && login.getPassword().equals(user.getPhoneNumber().toString())) {
                 if (login.getUserId().equals(login.getPassword())) {
                     return loginError;
                 }
