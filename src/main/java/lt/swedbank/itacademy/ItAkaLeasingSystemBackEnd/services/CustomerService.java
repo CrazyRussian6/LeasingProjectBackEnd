@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,18 +34,21 @@ public class CustomerService {
         List<CustomerResponse> customers = new ArrayList<CustomerResponse>();
         customers.addAll(getAllCustomers());
         List<String> errorMessage= new ArrayList<String>();
-        errorMessage.add("ChangePassword");
         ErrorDetails loginError = new ErrorDetails("LoginError", "LoginError", errorMessage);
         for (CustomerResponse user : customers) {
             //Chenge user.getEmail() to user id and user.getPhoneNumber() to user.password
-            if (login.getUserId().equals(user.getEmail()) && login.getPassword().equals(user.getPhoneNumber().toString())) {
+            if (login.getUserId().equals(user.getUserID()) && login.getPassword().equals(user.getPassword())) {
                 if (login.getUserId().equals(login.getPassword())) {
-                    return loginError;
+                    return "ChangePassword";
                 }
                 return user;
             }
         }
         return null;
+    }
+
+    public boolean existsCustomerByUserID(String userID){
+        return customerRepository.existsCustomerByUserID(userID);
     }
 
     public List<CustomerResponse> getAllCustomers() {
