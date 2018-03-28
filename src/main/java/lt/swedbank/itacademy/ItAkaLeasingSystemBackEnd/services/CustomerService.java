@@ -31,12 +31,10 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public Object login(Login login) {
-        List<CustomerResponse> customers = new ArrayList<CustomerResponse>();
-        customers.addAll(getAllCustomers());
-        List<String> errorMessage= new ArrayList<String>();
+        List<CustomerResponse> customers = new ArrayList<>(getAllCustomers());
+        List<String> errorMessage= new ArrayList<>();
         ErrorDetails loginError = new ErrorDetails("LoginError", "LoginError", errorMessage);
         for (CustomerResponse user : customers) {
-            //Chenge user.getEmail() to user id and user.getPhoneNumber() to user.password
             if (login.getUserId().equals(user.getUserID()) && login.getPassword().equals(user.getPassword())) {
                 if (login.getUserId().equals(login.getPassword())) {
                     return "ChangePassword";
@@ -97,6 +95,8 @@ public class CustomerService {
         newBusinessCustomer.setPhoneNumber(businessCustomer.getPhoneNumber());
         newBusinessCustomer.setCustomerType(businessCustomer.getCustomerType());
         newBusinessCustomer.setCountry(businessCustomer.getCountry());
+        newBusinessCustomer.setUserID(businessCustomer.getUserID());
+        newBusinessCustomer.setPassword(businessCustomer.getPassword());
 
         return customerRepository.save(newBusinessCustomer);
     }
@@ -113,6 +113,8 @@ public class CustomerService {
         newPrivateCustomer.setPhoneNumber(privateCustomer.getPhoneNumber());
         newPrivateCustomer.setCustomerType(privateCustomer.getCustomerType());
         newPrivateCustomer.setCountry(privateCustomer.getCountry());
+        newPrivateCustomer.setUserID(privateCustomer.getUserID());
+        newPrivateCustomer.setPassword(privateCustomer.getPassword());
 
         return customerRepository.save(newPrivateCustomer);
     }
