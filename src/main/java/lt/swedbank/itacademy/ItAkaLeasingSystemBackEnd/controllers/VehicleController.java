@@ -15,6 +15,7 @@ import java.util.List;
 public class VehicleController {
 
     @Autowired
+
     private VehicleService vehicleService;
 
     @RequestMapping(value = "/vehicles", method = RequestMethod.GET)
