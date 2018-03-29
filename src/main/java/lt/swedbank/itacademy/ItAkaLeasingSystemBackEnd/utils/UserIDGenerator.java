@@ -1,7 +1,7 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils;
 
 import java.security.SecureRandom;
-import java.util.Objects;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserIDGenerator {
 
@@ -13,10 +13,5 @@ public class UserIDGenerator {
         for (int i = 0; i < length; i++)
             sb.append(feed.charAt(rnd.nextInt(feed.length())));
         return sb.toString();
-    }
-
-    public static String generateHash(String identifier, String password){
-        int hash = Objects.hash(identifier, password);
-        return Integer.toString(hash);
     }
 }

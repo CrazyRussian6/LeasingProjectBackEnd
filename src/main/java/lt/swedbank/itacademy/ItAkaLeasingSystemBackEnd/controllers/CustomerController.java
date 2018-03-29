@@ -4,6 +4,7 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.UserIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -50,8 +51,10 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         while(customerService.existsCustomerByUserID(generatedID)){
             generatedID = UserIDGenerator.generateRandomID(12);
         }
+
+        String hashedPass = PasswordEncryption.encrypt(generatedID, generatedID);
         customer.setUserID(generatedID);
-        customer.setPassword(generatedID);
+        customer.setPassword(hashedPass);
         return new BusinessCustomerResponse(customerService.addNewBusinessCustomer(customer));
     }
 
@@ -66,8 +69,10 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         while(customerService.existsCustomerByUserID(generatedID)){
             generatedID = UserIDGenerator.generateRandomID(12);
         }
+
+        String hashedPass = PasswordEncryption.encrypt(generatedID, generatedID);
         customer.setUserID(generatedID);
-        customer.setPassword(generatedID);
+        customer.setPassword(hashedPass);
 
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
     }
