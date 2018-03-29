@@ -42,8 +42,8 @@ public abstract class LeasingResponse extends Response{
         this.assetPrice = assetPrice.toString();
         this.paymentDate = Integer.toString(paymentDate);
         this.customerID = customerID;
-        //this.submissionDate = submissionDate.toString();
-        //this.leasingStatus = leasingStatus.toString();
+        this.submissionDate = submissionDate.toString();
+        this.leasingStatus = leasingStatus.toString();
     }
 
     public String getAdvancePaymentPercent() {

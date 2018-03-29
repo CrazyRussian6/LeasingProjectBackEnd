@@ -29,4 +29,9 @@ public class VehicleLeasingController {
     public VehicleLeasingResponse addVehicleLeasing(@Valid @RequestBody VehicleLeasing vehicleLeasing) {
         return new VehicleLeasingResponse(vehicleLeasingService.addNewVehicleLeasing(vehicleLeasing));
     }
+
+    @RequestMapping(value = "/vehicleLeasings/{id}")
+    public List<VehicleLeasingResponse> getAllVehicleLeasingsByID(@PathVariable("id") String id){
+        return vehicleLeasingService.findVehicleLeasingsByCustomerID(id);
+    }
 }
