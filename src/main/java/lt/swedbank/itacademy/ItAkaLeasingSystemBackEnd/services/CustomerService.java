@@ -5,10 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.CustomerType;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerResponse;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.CustomerRepository;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleLeasingRepository;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +24,9 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private VehicleLeasingRepository vehicleLeasingRepository;
 
     public Object login(Login login) {
         List<Customer> customers = new ArrayList<>(customerRepository.findAll());
@@ -44,7 +47,8 @@ public class CustomerService {
                     }
                 }
                 else {
-                    return user;
+                    return vehicleLeasingRepository.findVehicleLeasingsByCustomerID(user.getId().toString());
+                    //return user;
                 }
 
             }
@@ -52,13 +56,21 @@ public class CustomerService {
         return null;
     }
 
-    public Customer changePassword(PasswordRequest passwordRequest) {
+    public List<VehicleLeasingResponse> changePassword(PasswordRequest passwordRequest) {
         Customer customer = customerRepository.findCustomerByUserID(passwordRequest.getUserId());
         if (!customer.getPassword().equals(passwordRequest.getOldPassword())) {
             throw new IllegalArgumentException("Specified old password does not equal customer's password");
         } else {
             customer.setPassword(passwordRequest.getNewPassword());
-            return customerRepository.save(customer);
+            customerRepository.save(customer);
+
+            List<VehicleLeasingResponse> responses = new ArrayList<>();
+            for(VehicleLeasing vehicleLeasing : vehicleLeasingRepository
+                    .findVehicleLeasingsByCustomerID(customer.getId().toString())){
+                responses.add(new VehicleLeasingResponse(vehicleLeasing));
+            }
+
+            return responses;
         }
     }
 
