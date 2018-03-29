@@ -9,6 +9,7 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.CustomerRepository;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleLeasingRepository;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleRepository;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +34,11 @@ public class CustomerService {
         List<String> errorMessage = new ArrayList<>();
         ErrorDetails loginError = new ErrorDetails("LoginError", "LoginError", errorMessage);
         for (Customer user : customers) {
-            if (login.getUserId().equals(user.getUserID()) && login.getPassword().equals(user.getPassword())) {
 
+            boolean decrypted = PasswordEncryption.decrypt(login.getUserId(), login.getPassword(),
+                    customerRepository.findCustomerByUserID(login.getUserId()).getPassword());
+
+            if (login.getUserId().equals(user.getUserID()) && decrypted) {
                 if (login.getUserId().equals(login.getPassword()) && !user.isChangedPassword()) {
                     ObjectMapper mapper = new ObjectMapper();
                     try {
@@ -57,11 +61,22 @@ public class CustomerService {
     }
 
     public List<VehicleLeasingResponse> changePassword(PasswordRequest passwordRequest) {
-        Customer customer = customerRepository.findCustomerByUserID(passwordRequest.getUserId());
-        if (!customer.getPassword().equals(passwordRequest.getOldPassword())) {
+
+        String userId = passwordRequest.getUserId();
+        String oldPassword = passwordRequest.getOldPassword();
+        String newPassword = passwordRequest.getNewPassword();
+
+        Customer customer = customerRepository.findCustomerByUserID(userId);
+
+        boolean decryptedOldPassLegit = PasswordEncryption.decrypt(userId, oldPassword,
+                customerRepository.findCustomerByUserID(userId).getPassword());
+        if (!decryptedOldPassLegit) {
             throw new IllegalArgumentException("Specified old password does not equal customer's password");
         } else {
-            customer.setPassword(passwordRequest.getNewPassword());
+
+            String encryptedPass = PasswordEncryption.encrypt(userId, newPassword);
+            customer.setPassword(encryptedPass);
+            //customer.setPassword(passwordRequest.getNewPassword());
             customerRepository.save(customer);
 
             List<VehicleLeasingResponse> responses = new ArrayList<>();
