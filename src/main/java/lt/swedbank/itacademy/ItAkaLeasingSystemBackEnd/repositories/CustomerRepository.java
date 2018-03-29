@@ -14,4 +14,8 @@ public interface CustomerRepository extends CrudRepository<Customer, String>{
     List<Customer> findAll();
 
     List<Customer> findCustomersByCustomerType(CustomerType customerType);
+
+    boolean existsCustomerByUserID(String userID);
+
+    Customer findCustomerByUserID(String userID);
 }

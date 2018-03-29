@@ -3,10 +3,8 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 import org.bson.types.ObjectId;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@Table(name = "vehicles")
 public class Vehicle {
 
     @Id

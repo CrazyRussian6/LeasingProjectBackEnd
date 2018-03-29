@@ -49,10 +49,10 @@ public class Leasing {
     private String customerID;
 
     //@NotNull(message = "leasing status must be defined")
-    private LeasingStatus leasingStatus;
+    private LeasingStatus leasingStatus = LeasingStatus.APPROVED;
 
     //@NotNull(message = "submission date must be defined")
-    private Date submissionDate;
+    private Date submissionDate = new Date();
 
     public String getCustomerID() {
         return customerID;

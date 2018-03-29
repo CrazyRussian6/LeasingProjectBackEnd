@@ -1,14 +1,12 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.BusinessCustomer;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Login;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.PrivateCustomer;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.UserIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,7 +41,6 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return customerService.getAllCustomers();
     }
 
-
     @RequestMapping(value = "/customers/addBusinessCustomer", method = RequestMethod.POST)
     public BusinessCustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
         BusinessCustomerResponse ifExists = customerService.ifExistsBusinessCustomer(customer.getCompanyID(), customer.getCompanyName());
@@ -52,12 +49,13 @@ public class CustomerController extends ResponseEntityExceptionHandler {
             return ifExists;
         }
 
+        String generatedID = UserIDGenerator.generateRandomID(12);
+        while(customerService.existsCustomerByUserID(generatedID)){
+            generatedID = UserIDGenerator.generateRandomID(12);
+        }
+        customer.setUserID(generatedID);
+        customer.setPassword(generatedID);
         return new BusinessCustomerResponse(customerService.addNewBusinessCustomer(customer));
-    }
-
-    @RequestMapping(value = "/customers/login", method = RequestMethod.POST)
-    public Object Login(@RequestBody Login loginData){
-        return customerService.login(loginData);
     }
 
     @RequestMapping(value = "/customers/addPrivateCustomer", method = RequestMethod.POST)
@@ -67,7 +65,25 @@ public class CustomerController extends ResponseEntityExceptionHandler {
             System.out.println("PrivateCustomer exists");
             return ifExists;
         }
+
+        String generatedID = UserIDGenerator.generateRandomID(12);
+        while(customerService.existsCustomerByUserID(generatedID)){
+            generatedID = UserIDGenerator.generateRandomID(12);
+        }
+        customer.setUserID(generatedID);
+        customer.setPassword(generatedID);
+
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
+    }
+
+    @RequestMapping(value = "/customers/login", method = RequestMethod.POST)
+    public Object Login(@RequestBody Login loginData){
+        return customerService.login(loginData);
+    }
+
+    @RequestMapping(value = "/customers/changepassword", method = RequestMethod.POST)
+    public Customer changePassword(@RequestBody PasswordRequest passwordRequest){
+        return customerService.changePassword(passwordRequest);
     }
 
     @Override
