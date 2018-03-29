@@ -1,13 +1,13 @@
-package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
+package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front;
 
 /**
  * @author Lukas
  */
 public class PasswordRequest {
 
-    String userId;
-    String oldPassword;
-    String newPassword;
+    private String userId;
+    private String oldPassword;
+    private String newPassword;
 
     public String getUserId() {
         return userId;

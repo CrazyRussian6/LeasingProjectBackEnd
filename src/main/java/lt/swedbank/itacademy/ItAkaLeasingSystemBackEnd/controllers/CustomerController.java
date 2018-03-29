@@ -2,6 +2,9 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Credentials;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Login;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.PasswordRequest;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
@@ -86,6 +89,20 @@ public class CustomerController extends ResponseEntityExceptionHandler {
     public List<VehicleLeasingResponse> changePassword(@RequestBody PasswordRequest passwordRequest){
         return customerService.changePassword(passwordRequest);
     }
+
+    @RequestMapping(value = "/customers/{userId}", method = RequestMethod.GET)
+    public ResponseEntity existsCustomerByID(@PathVariable("userId") String userId){
+        boolean exists = customerService.existsCustomerByUserID(userId);
+        return exists ? new ResponseEntity(HttpStatus.NOT_FOUND) : new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/customers/check", method = RequestMethod.POST)
+    public ResponseEntity<Object> existsCustomerByIdAndEmail(@RequestBody Credentials credentials){
+        boolean exists = customerService.existsCustomerByUserIDAndEmail(credentials.getUserId(), credentials.getEmail());
+        return exists ? new ResponseEntity<>("User found", HttpStatus.OK) :
+                new ResponseEntity<>("No such user found", HttpStatus.NOT_FOUND);
+    }
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
