@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.CustomerType;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Login;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.PasswordRequest;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.CustomerRepository;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleLeasingRepository;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleRepository;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,6 +94,10 @@ public class CustomerService {
         return customerRepository.existsCustomerByUserID(userID);
     }
 
+    public boolean existsCustomerByUserIDAndEmail(String userID, String email){
+        return customerRepository.existsCustomerByUserIDAndEmail(userID, email);
+    }
+
     public List<CustomerResponse> getAllCustomers() {
         List<CustomerResponse> responses = new ArrayList<>();
         for (Customer customer : customerRepository.findAll()) {
@@ -130,7 +135,7 @@ public class CustomerService {
 
     public BusinessCustomer addNewBusinessCustomer(@Valid BusinessCustomer businessCustomer) {
         BusinessCustomer newBusinessCustomer = new BusinessCustomer();
-        Customer newCostumer = new Customer();
+
         newBusinessCustomer.setId(businessCustomer.getId());
         newBusinessCustomer.setCompanyID(businessCustomer.getCompanyID());
         newBusinessCustomer.setCompanyName(businessCustomer.getCompanyName());

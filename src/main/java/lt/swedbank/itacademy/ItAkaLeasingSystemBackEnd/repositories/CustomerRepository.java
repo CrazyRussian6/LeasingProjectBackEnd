@@ -3,12 +3,11 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.CustomerType;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * @author Lukas
- */
+@Repository
 public interface CustomerRepository extends CrudRepository<Customer, String>{
 
     List<Customer> findAll();
@@ -18,4 +17,5 @@ public interface CustomerRepository extends CrudRepository<Customer, String>{
     boolean existsCustomerByUserID(String userID);
 
     Customer findCustomerByUserID(String userID);
+    boolean existsCustomerByUserIDAndEmail(String userID, String email);
 }
