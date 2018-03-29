@@ -11,4 +11,5 @@ import java.util.List;
 public interface VehicleLeasingRepository extends CrudRepository<VehicleLeasing, String> {
 
     List<VehicleLeasing> findAll();
+    List<VehicleLeasing> findVehicleLeasingsByCustomerID(String customerID);
 }

@@ -1,8 +1,6 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.BusinessCustomer;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Login;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.PrivateCustomer;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerResponse;
@@ -81,6 +79,11 @@ public class CustomerController extends ResponseEntityExceptionHandler {
     @RequestMapping(value = "/customers/login", method = RequestMethod.POST)
     public Object Login(@RequestBody Login loginData){
         return customerService.login(loginData);
+    }
+
+    @RequestMapping(value = "/customers/changepassword", method = RequestMethod.POST)
+    public Customer changePassword(@RequestBody PasswordRequest passwordRequest){
+        return customerService.changePassword(passwordRequest);
     }
 
     @Override

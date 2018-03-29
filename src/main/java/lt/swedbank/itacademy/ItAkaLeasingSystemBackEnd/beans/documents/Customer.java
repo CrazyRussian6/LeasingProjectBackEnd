@@ -2,12 +2,13 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.CustomerType;
 import org.bson.types.ObjectId;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Id;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigInteger;
 
 @MappedSuperclass
@@ -40,6 +41,8 @@ public class Customer {
     private String userID;
 
     private String password;
+
+    private boolean changedPassword = false;
 
     public ObjectId getId() {
         return id;
@@ -103,5 +106,13 @@ public class Customer {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isChangedPassword() {
+        return changedPassword;
+    }
+
+    public void setChangedPassword(boolean changedPassword) {
+        this.changedPassword = changedPassword;
     }
 }

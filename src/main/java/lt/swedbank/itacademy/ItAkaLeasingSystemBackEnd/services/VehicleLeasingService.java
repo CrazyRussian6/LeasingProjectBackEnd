@@ -16,7 +16,7 @@ public class VehicleLeasingService {
     @Autowired
     private VehicleLeasingRepository vehicleLeasingRepository;
 
-    public VehicleLeasing addNewVehicleLeasing(@Valid VehicleLeasing vehicleLeasing){
+    public VehicleLeasing addNewVehicleLeasing(@Valid VehicleLeasing vehicleLeasing) {
         VehicleLeasing newVehicleLeasing = new VehicleLeasing();
 
         newVehicleLeasing.setEnginePower(vehicleLeasing.getEnginePower());
@@ -39,11 +39,19 @@ public class VehicleLeasingService {
         return vehicleLeasingRepository.save(newVehicleLeasing);
     }
 
-    public List<VehicleLeasingResponse> getAllVehicleLeasings(){
+    public List<VehicleLeasingResponse> getAllVehicleLeasings() {
         List<VehicleLeasingResponse> responses = new ArrayList<>();
-        for(VehicleLeasing vehicleLeasing : vehicleLeasingRepository.findAll()){
+        for (VehicleLeasing vehicleLeasing : vehicleLeasingRepository.findAll()) {
             responses.add(new VehicleLeasingResponse(vehicleLeasing));
+        }
+        return responses;
     }
+
+    public List<VehicleLeasingResponse> findVehicleLeasingsByCustomerID(String customerID) {
+        List<VehicleLeasingResponse> responses = new ArrayList<>();
+        for (VehicleLeasing vehicleLeasing : vehicleLeasingRepository.findVehicleLeasingsByCustomerID(customerID)) {
+            responses.add(new VehicleLeasingResponse(vehicleLeasing));
+        }
         return responses;
     }
 }
