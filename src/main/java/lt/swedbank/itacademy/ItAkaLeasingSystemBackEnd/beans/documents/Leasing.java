@@ -7,6 +7,8 @@ import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Leasing {
@@ -51,8 +53,9 @@ public class Leasing {
     //@NotNull(message = "leasing status must be defined")
     private LeasingStatus leasingStatus = LeasingStatus.APPROVED;
 
+
     //@NotNull(message = "submission date must be defined")
-    private Date submissionDate = new Date();
+    private String submissionDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
     public String getCustomerID() {
         return customerID;
@@ -126,11 +129,11 @@ public class Leasing {
         this.leasingStatus = leasingStatus;
     }
 
-    public Date getSubmissionDate() {
+    public String getSubmissionDate() {
         return submissionDate;
     }
 
-    public void setSubmissionDate(Date submissionDate) {
+    public void setSubmissionDate(String submissionDate) {
         this.submissionDate = submissionDate;
     }
 }
