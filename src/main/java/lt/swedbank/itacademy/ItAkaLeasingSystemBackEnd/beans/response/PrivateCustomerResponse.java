@@ -21,7 +21,7 @@ public class PrivateCustomerResponse extends CustomerResponse {
         super(privateCustomer.getId().toString(), privateCustomer.getEmail(),
                 privateCustomer.getPhoneNumber(), privateCustomer.getAddress(),
                 privateCustomer.getCustomerType().toString(), privateCustomer.getCountry(),
-                privateCustomer.getUserID(), privateCustomer.getPassword());
+                privateCustomer.getUserID());
         this.privateID = privateCustomer.getPrivateID();
         this.firstName = privateCustomer.getFirstName();
         this.lastName = privateCustomer.getLastName();

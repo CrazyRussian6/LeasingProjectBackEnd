@@ -36,8 +36,13 @@ public class CustomerService {
         ErrorDetails loginError = new ErrorDetails("LoginError", "LoginError", errorMessage);
         for (Customer user : customers) {
 
+            Customer customer = customerRepository.findCustomerByUserID(login.getUserId());
+            if(customer == null){
+                return null;
+            }
+
             boolean decrypted = PasswordEncryption.decrypt(login.getUserId(), login.getPassword(),
-                    customerRepository.findCustomerByUserID(login.getUserId()).getPassword());
+                    customer.getPassword());
 
             if (login.getUserId().equals(user.getUserID()) && decrypted) {
                 if (login.getUserId().equals(login.getPassword()) && !user.isChangedPassword()) {
@@ -90,8 +95,33 @@ public class CustomerService {
         }
     }
 
+    public boolean passwordRecovery(PasswordRequest passwordRequest){
+
+        if(passwordRequest.getOldPassword() != null){
+            return false;
+        }
+
+        String userId = passwordRequest.getUserId();
+        String newPassword = passwordRequest.getNewPassword();
+
+        Customer customer = customerRepository.findCustomerByUserID(userId);
+        if(customer == null){
+            return false;
+        }
+
+        String encryptedPass = PasswordEncryption.encrypt(userId, newPassword);
+        customer.setPassword(encryptedPass);
+        customerRepository.save(customer);
+
+        return true;
+    }
+
     public boolean existsCustomerByUserID(String userID) {
         return customerRepository.existsCustomerByUserID(userID);
+    }
+
+    public boolean existsCustomerByEmail(String email){
+        return customerRepository.existsCustomerByEmail(email);
     }
 
     public boolean existsCustomerByUserIDAndEmail(String userID, String email){

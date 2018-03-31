@@ -33,7 +33,7 @@ public class PrivateCustomerValidationTests {
         PrivateCustomer customer = new PrivateCustomer();
         customer.setEmail("correct.email@gmail.com");
         customer.setAddress("non empty address");
-        customer.setPhoneNumber("860123456");
+        customer.setPhoneNumber(new BigInteger("860123456"));
         customer.setFirstName("First name");
         customer.setLastName("Last name");
         customer.setPrivateID("12345678901");

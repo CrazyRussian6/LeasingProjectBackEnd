@@ -85,15 +85,26 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return customerService.login(loginData);
     }
 
-    @RequestMapping(value = "/customers/changepassword", method = RequestMethod.POST)
+    @RequestMapping(value = "/customers/change/password", method = RequestMethod.POST)
     public List<VehicleLeasingResponse> changePassword(@RequestBody PasswordRequest passwordRequest){
         return customerService.changePassword(passwordRequest);
     }
 
-    @RequestMapping(value = "/customers/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "customers/change/forgot", method = RequestMethod.POST)
+    public boolean passwordRecovery(@RequestBody PasswordRequest passwordRequest){
+        return customerService.passwordRecovery(passwordRequest);
+    }
+
+    @RequestMapping(value = "/customers/{userId}", method = RequestMethod.POST)
     public ResponseEntity existsCustomerByID(@PathVariable("userId") String userId){
         boolean exists = customerService.existsCustomerByUserID(userId);
-        return exists ? new ResponseEntity(HttpStatus.NOT_FOUND) : new ResponseEntity(HttpStatus.OK);
+        return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(value = "/customers/{email}", method = RequestMethod.GET)
+    public ResponseEntity existsCustomerByEmail(@PathVariable("email") String email){
+        boolean exists = customerService.existsCustomerByEmail(email);
+        return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "/customers/check", method = RequestMethod.POST)
