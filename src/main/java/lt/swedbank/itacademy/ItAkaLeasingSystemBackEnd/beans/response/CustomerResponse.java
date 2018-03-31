@@ -1,6 +1,5 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
@@ -14,7 +13,7 @@ public class CustomerResponse extends Response{
 
     private BigInteger phoneNumber;
 
-    private String adress;
+    private String address;
 
     private String customerType;
 
@@ -22,23 +21,23 @@ public class CustomerResponse extends Response{
 
     private String userID;
 
-    private String password;
+   // private String password;
 
     public CustomerResponse(){
 
     }
 
     public CustomerResponse(String id, String email, BigInteger phoneNumber,
-                            String adress, String customerType, String country,
-                            String userID, String password) {
+                            String address, String customerType, String country,
+                            String userID) {
         this.id = id;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.adress = adress;
+        this.address = address;
         this.customerType = customerType;
         this.country = country;
         this.userID = userID;
-        this.password = password;
+        //this.password = password;
     }
 
     public String getId() {
@@ -65,12 +64,12 @@ public class CustomerResponse extends Response{
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCustomerType() {
@@ -97,11 +96,11 @@ public class CustomerResponse extends Response{
         this.userID = userID;
     }
 
-    public String getPassword() {
+    /*public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
+    } */
 }
