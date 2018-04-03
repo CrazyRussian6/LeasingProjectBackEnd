@@ -33,7 +33,7 @@ public abstract class LeasingResponse extends Response{
 
     public LeasingResponse(BigDecimal advancePaymentPercent, BigDecimal advancePaymentAmount, int leasingPeriod,
                            BigDecimal margin, BigDecimal contractFee, BigDecimal assetPrice, int paymentDate,
-                           String customerID, Date submissionDate, LeasingStatus leasingStatus) {
+                           String customerID, String submissionDate, LeasingStatus leasingStatus) {
         this.advancePaymentPercent = advancePaymentPercent.toString();
         this.advancePaymentAmount = advancePaymentAmount.toString();
         this.leasingPeriod = Integer.toString(leasingPeriod);
@@ -42,7 +42,7 @@ public abstract class LeasingResponse extends Response{
         this.assetPrice = assetPrice.toString();
         this.paymentDate = Integer.toString(paymentDate);
         this.customerID = customerID;
-        this.submissionDate = submissionDate.toString();
+        this.submissionDate = submissionDate;
         this.leasingStatus = leasingStatus.toString();
     }
 

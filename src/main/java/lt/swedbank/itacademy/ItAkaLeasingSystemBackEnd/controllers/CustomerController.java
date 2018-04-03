@@ -2,10 +2,12 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerResponse;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Credentials;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Login;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.PasswordRequest;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.UserIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -45,7 +47,6 @@ public class CustomerController extends ResponseEntityExceptionHandler {
     public BusinessCustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
         BusinessCustomerResponse ifExists = customerService.ifExistsBusinessCustomer(customer.getCompanyID(), customer.getCompanyName());
         if(ifExists != null){
-            System.out.println("BusinessCustomer exists");
             return ifExists;
         }
 
@@ -53,8 +54,10 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         while(customerService.existsCustomerByUserID(generatedID)){
             generatedID = UserIDGenerator.generateRandomID(12);
         }
+
+        String hashedPass = PasswordEncryption.encrypt(generatedID, generatedID);
         customer.setUserID(generatedID);
-        customer.setPassword(generatedID);
+        customer.setPassword(hashedPass);
         return new BusinessCustomerResponse(customerService.addNewBusinessCustomer(customer));
     }
 
@@ -62,7 +65,6 @@ public class CustomerController extends ResponseEntityExceptionHandler {
     public CustomerResponse addCustomer(@Valid @RequestBody PrivateCustomer customer){
         PrivateCustomerResponse ifExists = customerService.ifExistsPrivateCustomer(customer.getPrivateID(), customer.getFirstName(), customer.getLastName());
         if(ifExists != null){
-            System.out.println("PrivateCustomer exists");
             return ifExists;
         }
 
@@ -70,8 +72,10 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         while(customerService.existsCustomerByUserID(generatedID)){
             generatedID = UserIDGenerator.generateRandomID(12);
         }
+
+        String hashedPass = PasswordEncryption.encrypt(generatedID, generatedID);
         customer.setUserID(generatedID);
-        customer.setPassword(generatedID);
+        customer.setPassword(hashedPass);
 
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
     }
@@ -81,10 +85,35 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return customerService.login(loginData);
     }
 
-    @RequestMapping(value = "/customers/changepassword", method = RequestMethod.POST)
-    public Customer changePassword(@RequestBody PasswordRequest passwordRequest){
+    @RequestMapping(value = "/customers/change/password", method = RequestMethod.POST)
+    public List<VehicleLeasingResponse> changePassword(@RequestBody PasswordRequest passwordRequest){
         return customerService.changePassword(passwordRequest);
     }
+
+    @RequestMapping(value = "customers/change/forgot", method = RequestMethod.POST)
+    public boolean passwordRecovery(@RequestBody PasswordRequest passwordRequest){
+        return customerService.passwordRecovery(passwordRequest);
+    }
+
+    @RequestMapping(value = "/customers/{userId}", method = RequestMethod.POST)
+    public ResponseEntity existsCustomerByID(@PathVariable("userId") String userId){
+        boolean exists = customerService.existsCustomerByUserID(userId);
+        return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(value = "/customers/{email}", method = RequestMethod.GET)
+    public ResponseEntity existsCustomerByEmail(@PathVariable("email") String email){
+        boolean exists = customerService.existsCustomerByEmail(email);
+        return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(value = "/customers/check", method = RequestMethod.POST)
+    public ResponseEntity<Object> existsCustomerByIdAndEmail(@RequestBody Credentials credentials){
+        boolean exists = customerService.existsCustomerByUserIDAndEmail(credentials.getUserId(), credentials.getEmail());
+        return exists ? new ResponseEntity<>("User found", HttpStatus.OK) :
+                new ResponseEntity<>("No such user found", HttpStatus.NOT_FOUND);
+    }
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

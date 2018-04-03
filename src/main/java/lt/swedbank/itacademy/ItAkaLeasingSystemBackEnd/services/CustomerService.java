@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.CustomerType;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerResponse;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Login;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.PasswordRequest;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.CustomerRepository;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleLeasingRepository;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +27,24 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private VehicleLeasingRepository vehicleLeasingRepository;
+
     public Object login(Login login) {
         List<Customer> customers = new ArrayList<>(customerRepository.findAll());
         List<String> errorMessage = new ArrayList<>();
         ErrorDetails loginError = new ErrorDetails("LoginError", "LoginError", errorMessage);
         for (Customer user : customers) {
-            if (login.getUserId().equals(user.getUserID()) && login.getPassword().equals(user.getPassword())) {
 
+            Customer customer = customerRepository.findCustomerByUserID(login.getUserId());
+            if(customer == null){
+                return null;
+            }
+
+            boolean decrypted = PasswordEncryption.decrypt(login.getUserId(), login.getPassword(),
+                    customer.getPassword());
+
+            if (login.getUserId().equals(user.getUserID()) && decrypted) {
                 if (login.getUserId().equals(login.getPassword()) && !user.isChangedPassword()) {
                     ObjectMapper mapper = new ObjectMapper();
                     try {
@@ -44,7 +57,8 @@ public class CustomerService {
                     }
                 }
                 else {
-                    return user;
+                    return vehicleLeasingRepository.findVehicleLeasingsByCustomerID(user.getId().toString());
+                    //return user;
                 }
 
             }
@@ -52,18 +66,66 @@ public class CustomerService {
         return null;
     }
 
-    public Customer changePassword(PasswordRequest passwordRequest) {
-        Customer customer = customerRepository.findCustomerByUserID(passwordRequest.getUserId());
-        if (!customer.getPassword().equals(passwordRequest.getOldPassword())) {
+    public List<VehicleLeasingResponse> changePassword(PasswordRequest passwordRequest) {
+
+        String userId = passwordRequest.getUserId();
+        String oldPassword = passwordRequest.getOldPassword();
+        String newPassword = passwordRequest.getNewPassword();
+
+        Customer customer = customerRepository.findCustomerByUserID(userId);
+
+        boolean decryptedOldPassLegit = PasswordEncryption.decrypt(userId, oldPassword,
+                customerRepository.findCustomerByUserID(userId).getPassword());
+        if (!decryptedOldPassLegit) {
             throw new IllegalArgumentException("Specified old password does not equal customer's password");
         } else {
-            customer.setPassword(passwordRequest.getNewPassword());
-            return customerRepository.save(customer);
+
+            String encryptedPass = PasswordEncryption.encrypt(userId, newPassword);
+            customer.setPassword(encryptedPass);
+            //customer.setPassword(passwordRequest.getNewPassword());
+            customerRepository.save(customer);
+
+            List<VehicleLeasingResponse> responses = new ArrayList<>();
+            for(VehicleLeasing vehicleLeasing : vehicleLeasingRepository
+                    .findVehicleLeasingsByCustomerID(customer.getId().toString())){
+                responses.add(new VehicleLeasingResponse(vehicleLeasing));
+            }
+
+            return responses;
         }
+    }
+
+    public boolean passwordRecovery(PasswordRequest passwordRequest){
+
+        if(passwordRequest.getOldPassword() != null){
+            return false;
+        }
+
+        String userId = passwordRequest.getUserId();
+        String newPassword = passwordRequest.getNewPassword();
+
+        Customer customer = customerRepository.findCustomerByUserID(userId);
+        if(customer == null){
+            return false;
+        }
+
+        String encryptedPass = PasswordEncryption.encrypt(userId, newPassword);
+        customer.setPassword(encryptedPass);
+        customerRepository.save(customer);
+
+        return true;
     }
 
     public boolean existsCustomerByUserID(String userID) {
         return customerRepository.existsCustomerByUserID(userID);
+    }
+
+    public boolean existsCustomerByEmail(String email){
+        return customerRepository.existsCustomerByEmail(email);
+    }
+
+    public boolean existsCustomerByUserIDAndEmail(String userID, String email){
+        return customerRepository.existsCustomerByUserIDAndEmail(userID, email);
     }
 
     public List<CustomerResponse> getAllCustomers() {
@@ -103,7 +165,7 @@ public class CustomerService {
 
     public BusinessCustomer addNewBusinessCustomer(@Valid BusinessCustomer businessCustomer) {
         BusinessCustomer newBusinessCustomer = new BusinessCustomer();
-        Customer newCostumer = new Customer();
+
         newBusinessCustomer.setId(businessCustomer.getId());
         newBusinessCustomer.setCompanyID(businessCustomer.getCompanyID());
         newBusinessCustomer.setCompanyName(businessCustomer.getCompanyName());

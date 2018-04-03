@@ -8,6 +8,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.math.BigInteger;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertTrue;
@@ -31,7 +32,7 @@ public class CustomerValidationTests {
         Customer customer = new Customer();
         customer.setEmail("correct.email@gmail.com");
         customer.setAddress("non empty address");
-        customer.setPhoneNumber("860123456");
+        customer.setPhoneNumber(new BigInteger("860123456"));
         testCustomer = customer;
     }
 

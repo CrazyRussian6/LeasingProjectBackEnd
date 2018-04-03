@@ -1,4 +1,4 @@
-package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
+package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;

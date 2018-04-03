@@ -18,7 +18,7 @@ public class BusinessCustomerResponse extends CustomerResponse{
         super(businessCustomer.getId().toString(), businessCustomer.getEmail(),
                 businessCustomer.getPhoneNumber(), businessCustomer.getAddress(),
                 businessCustomer.getCustomerType().toString(), businessCustomer.getCountry(),
-                businessCustomer.getUserID(), businessCustomer.getPassword());
+                businessCustomer.getUserID());
         this.companyID = businessCustomer.getCompanyID();
         this.companyName = businessCustomer.getCompanyName();
     }
