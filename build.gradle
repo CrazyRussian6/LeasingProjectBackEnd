@@ -32,4 +32,5 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile group: 'javax.persistence', name: 'persistence-api', version: '1.0'
 	compile 'org.springframework.security:spring-security-web:5.0.3.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '1.2.0.RELEASE'
 }
