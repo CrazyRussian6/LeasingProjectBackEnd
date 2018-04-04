@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Lukas
@@ -30,92 +31,6 @@ public class CustomerService {
     @Autowired
     private VehicleLeasingRepository vehicleLeasingRepository;
 
-    public Object login(Login login) {
-        List<Customer> customers = new ArrayList<>(customerRepository.findAll());
-        List<String> errorMessage = new ArrayList<>();
-        ErrorDetails loginError = new ErrorDetails("LoginError", "LoginError", errorMessage);
-        for (Customer user : customers) {
-
-            Customer customer = customerRepository.findCustomerByUserID(login.getUserId());
-            if(customer == null){
-                return null;
-            }
-
-            boolean decrypted = PasswordEncryption.decrypt(login.getUserId(), login.getPassword(),
-                    customer.getPassword());
-
-            if (login.getUserId().equals(user.getUserID()) && decrypted) {
-                if (login.getUserId().equals(login.getPassword()) && !user.isChangedPassword()) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    try {
-                        user.setChangedPassword(true);
-                        customerRepository.save(user);
-                        return mapper.writeValueAsString("Password exists");
-                    }
-                    catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    return vehicleLeasingRepository.findVehicleLeasingsByCustomerID(user.getId().toString());
-                    //return user;
-                }
-
-            }
-        }
-        return null;
-    }
-
-    public List<VehicleLeasingResponse> changePassword(PasswordRequest passwordRequest) {
-
-        String userId = passwordRequest.getUserId();
-        String oldPassword = passwordRequest.getOldPassword();
-        String newPassword = passwordRequest.getNewPassword();
-
-        Customer customer = customerRepository.findCustomerByUserID(userId);
-
-        boolean decryptedOldPassLegit = PasswordEncryption.decrypt(userId, oldPassword,
-                customerRepository.findCustomerByUserID(userId).getPassword());
-        if (!decryptedOldPassLegit) {
-            throw new IllegalArgumentException("Specified old password does not equal customer's password");
-        } else {
-
-            String encryptedPass = PasswordEncryption.encrypt(userId, newPassword);
-            customer.setPassword(encryptedPass);
-            //customer.setPassword(passwordRequest.getNewPassword());
-            customerRepository.save(customer);
-
-            List<VehicleLeasingResponse> responses = new ArrayList<>();
-            for(VehicleLeasing vehicleLeasing : vehicleLeasingRepository
-                    .findVehicleLeasingsByCustomerID(customer.getId().toString())){
-                responses.add(new VehicleLeasingResponse(vehicleLeasing));
-            }
-
-            return responses;
-        }
-    }
-
-    public boolean passwordRecovery(PasswordRequest passwordRequest){
-
-        if(passwordRequest.getOldPassword() != null){
-            return false;
-        }
-
-        String userId = passwordRequest.getUserId();
-        String newPassword = passwordRequest.getNewPassword();
-
-        Customer customer = customerRepository.findCustomerByUserID(userId);
-        if(customer == null){
-            return false;
-        }
-
-        String encryptedPass = PasswordEncryption.encrypt(userId, newPassword);
-        customer.setPassword(encryptedPass);
-        customerRepository.save(customer);
-
-        return true;
-    }
-
     public boolean existsCustomerByUserID(String userID) {
         return customerRepository.existsCustomerByUserID(userID);
     }
@@ -126,6 +41,10 @@ public class CustomerService {
 
     public boolean existsCustomerByUserIDAndEmail(String userID, String email){
         return customerRepository.existsCustomerByUserIDAndEmail(userID, email);
+    }
+
+    public Customer findCustomerByEmail(String email){
+        return customerRepository.findCustomerByEmail(email);
     }
 
     public List<CustomerResponse> getAllCustomers() {

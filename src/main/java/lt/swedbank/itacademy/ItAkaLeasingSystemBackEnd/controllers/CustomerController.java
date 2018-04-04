@@ -80,21 +80,6 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
     }
 
-    @RequestMapping(value = "/customers/login", method = RequestMethod.POST)
-    public Object Login(@RequestBody Login loginData){
-        return customerService.login(loginData);
-    }
-
-    @RequestMapping(value = "/customers/change/password", method = RequestMethod.POST)
-    public List<VehicleLeasingResponse> changePassword(@RequestBody PasswordRequest passwordRequest){
-        return customerService.changePassword(passwordRequest);
-    }
-
-    @RequestMapping(value = "customers/change/forgot", method = RequestMethod.POST)
-    public boolean passwordRecovery(@RequestBody PasswordRequest passwordRequest){
-        return customerService.passwordRecovery(passwordRequest);
-    }
-
     @RequestMapping(value = "/customers/{userId}", method = RequestMethod.POST)
     public ResponseEntity existsCustomerByID(@PathVariable("userId") String userId){
         boolean exists = customerService.existsCustomerByUserID(userId);

@@ -34,12 +34,13 @@ public class Customer {
     @NotNull(message = "customer type must be specified")
     private CustomerType customerType;
 
-    //@NotNull(message = "customer country must be specified")
+    @NotNull(message = "customer country must be specified")
     private String country;
 
     //@NotNull(message = "customer user ID must be specified")
     private String userID;
 
+    //@NotNull(message = "customer password not set")
     private String password;
 
     private boolean changedPassword = false;
