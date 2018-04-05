@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Administrator;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.VehicleLeasing;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.CustomerLoans;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Login;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.PasswordRequest;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.VehicleLeasingResponse;
@@ -34,44 +34,32 @@ public class LoginService {
     private VehicleLeasingRepository vehicleLeasingRepository;
 
     public Object login(Login login) {
-        if(login.getUserId().equals("admin") && login.getPassword().equals("root")){
-            return this.administratorLogin(login);
+        Customer user = customerRepository.findCustomerByUserID(login.getUserId());
+        if (user == null) {
+            return null;
         }
 
-        List<Customer> customers = new ArrayList<>(customerRepository.findAll());
-        List<String> errorMessage = new ArrayList<>();
-        ErrorDetails loginError = new ErrorDetails("LoginError", "LoginError", errorMessage);
-        for (Customer user : customers) {
+        boolean decrypted = PasswordEncryption.decrypt(login.getUserId(), login.getPassword(),
+                user.getPassword());
 
-            Customer customer = customerRepository.findCustomerByUserID(login.getUserId());
-            if(customer == null){
-                return null;
-            }
-
-            boolean decrypted = PasswordEncryption.decrypt(login.getUserId(), login.getPassword(),
-                    customer.getPassword());
-
-            if (login.getUserId().equals(user.getUserID()) && decrypted) {
-                if (login.getUserId().equals(login.getPassword()) && !user.isChangedPassword()) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    try {
-                        user.setChangedPassword(true);
-                        customerRepository.save(user);
-                        return mapper.writeValueAsString("Password exists");
-                    }
-                    catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
+        if (login.getUserId().equals(user.getUserID()) && decrypted) {
+            if (login.getUserId().equals(login.getPassword()) && !user.isChangedPassword()) {
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    user.setChangedPassword(true);
+                    customerRepository.save(user);
+                    return mapper.writeValueAsString("Password exists");
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
                 }
-                else {
-                    return vehicleLeasingRepository.findVehicleLeasingsByCustomerID(user.getId().toString());
-                }
+            } else {
+                return vehicleLeasingRepository.findVehicleLeasingsByCustomerID(user.getId().toString());
             }
         }
         return null;
     }
 
-    public ResponseEntity<String> administratorLogin(Login login){
+    public Object administratorLogin(Login login) {
 
         //Add new admin with default credentials
         /*String hashedPass = PasswordEncryption.encrypt(login.getUserId(), login.getPassword());
@@ -83,20 +71,24 @@ public class LoginService {
         administratorRepository.save(admin);*/
 
         Administrator administrator = administratorRepository.findAdministratorByUserID(login.getUserId());
-        if(administrator == null){
+        if (administrator == null) {
             return new ResponseEntity<>("Invalid user", HttpStatus.BAD_REQUEST);
-        }
-        else{
+        } else {
 
             boolean decrypted = PasswordEncryption.decrypt(login.getUserId(), login.getPassword(),
                     administrator.getPassword());
-            if(decrypted){
-                return new ResponseEntity<>("Admin", HttpStatus.OK);
-            }
-            else{
+            if (decrypted) {
+
+                List<Customer> customers = customerRepository.findAll();
+                List<CustomerLoans> customerLoans = new ArrayList<>();
+                for(Customer customer : customers){
+                    customerLoans.add(new CustomerLoans(customer,
+                            vehicleLeasingRepository.findVehicleLeasingsByCustomerID(customer.getId().toString())));
+                }
+                return customerLoans;
+            } else {
                 return new ResponseEntity<>("Invalid credentials", HttpStatus.NOT_FOUND);
             }
-
         }
     }
 
@@ -107,9 +99,10 @@ public class LoginService {
         String newPassword = passwordRequest.getNewPassword();
 
         Customer customer = customerRepository.findCustomerByUserID(userId);
+        System.out.println(customer);
 
         boolean decryptedOldPassLegit = PasswordEncryption.decrypt(userId, oldPassword,
-                customerRepository.findCustomerByUserID(userId).getPassword());
+                customer.getPassword());
         if (!decryptedOldPassLegit) {
             throw new IllegalArgumentException("Specified old password does not equal customer's password");
         } else {
@@ -120,8 +113,8 @@ public class LoginService {
             customerRepository.save(customer);
 
             List<VehicleLeasingResponse> responses = new ArrayList<>();
-            for(VehicleLeasing vehicleLeasing : vehicleLeasingRepository
-                    .findVehicleLeasingsByCustomerID(customer.getId().toString())){
+            for (VehicleLeasing vehicleLeasing : vehicleLeasingRepository
+                    .findVehicleLeasingsByCustomerID(customer.getId().toString())) {
                 responses.add(new VehicleLeasingResponse(vehicleLeasing));
             }
 
@@ -129,9 +122,9 @@ public class LoginService {
         }
     }
 
-    public boolean passwordRecovery(PasswordRequest passwordRequest){
+    public boolean passwordRecovery(PasswordRequest passwordRequest) {
 
-        if(passwordRequest.getOldPassword() != null){
+        if (passwordRequest.getOldPassword() != null) {
             return false;
         }
 
@@ -139,7 +132,7 @@ public class LoginService {
         String newPassword = passwordRequest.getNewPassword();
 
         Customer customer = customerRepository.findCustomerByUserID(userId);
-        if(customer == null){
+        if (customer == null) {
             return false;
         }
 

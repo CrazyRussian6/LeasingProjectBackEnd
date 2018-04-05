@@ -20,7 +20,7 @@ public class VehicleLeasingController {
     @Autowired
     private VehicleLeasingService vehicleLeasingService;
 
-    @RequestMapping(value = "/vehicleLeasings")
+    @RequestMapping(value = "/vehicleLeasings", method = RequestMethod.GET)
     public List<VehicleLeasingResponse> getAllVehicleLeasings() {
         return vehicleLeasingService.getAllVehicleLeasings();
     }
@@ -30,7 +30,7 @@ public class VehicleLeasingController {
         return new VehicleLeasingResponse(vehicleLeasingService.addNewVehicleLeasing(vehicleLeasing));
     }
 
-    @RequestMapping(value = "/vehicleLeasings/{id}")
+    @RequestMapping(value = "/vehicleLeasings/{id}", method = RequestMethod.POST)
     public List<VehicleLeasingResponse> getAllVehicleLeasingsByID(@PathVariable("id") String id){
         return vehicleLeasingService.findVehicleLeasingsByCustomerID(id);
     }

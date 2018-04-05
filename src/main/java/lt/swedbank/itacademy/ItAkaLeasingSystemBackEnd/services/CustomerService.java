@@ -12,6 +12,11 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.CustomerRepo
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleLeasingRepository;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -23,13 +28,10 @@ import java.util.Optional;
  * @author Lukas
  */
 @Service
-public class CustomerService {
+public class CustomerService{
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private VehicleLeasingRepository vehicleLeasingRepository;
 
     public boolean existsCustomerByUserID(String userID) {
         return customerRepository.existsCustomerByUserID(userID);
@@ -45,6 +47,10 @@ public class CustomerService {
 
     public Customer findCustomerByEmail(String email){
         return customerRepository.findCustomerByEmail(email);
+    }
+
+    public Customer findCustomerByUserID(String userID){
+        return customerRepository.findCustomerByUserID(userID);
     }
 
     public List<CustomerResponse> getAllCustomers() {
