@@ -86,7 +86,7 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/customers/{email}", method = RequestMethod.GET)
+    @RequestMapping(value = "customers/{email}", method = RequestMethod.GET)
     public ResponseEntity existsCustomerByEmail(@PathVariable("email") String email){
         boolean exists = customerService.existsCustomerByEmail(email);
         return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);

@@ -3,7 +3,6 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Login;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.PasswordRequest;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.VehicleLeasingResponse;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +19,11 @@ public class LoginController {
     @RequestMapping(value = "/customers/login", method = RequestMethod.POST)
     public Object Login(@RequestBody Login loginData){
         return loginService.login(loginData);
+    }
+
+    @RequestMapping(value = "/officer/login", method = RequestMethod.POST)
+    public Object OfficerLogin(@RequestBody Login loginData){
+        return loginService.administratorLogin(loginData);
     }
 
     @RequestMapping(value = "/customers/change/password", method = RequestMethod.POST)
