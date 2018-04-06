@@ -1,17 +1,21 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
 
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.BusinessCustomer;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.PrivateCustomer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.CustomerType;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.*;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerResponse;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.CustomerRepository;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.UserIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.rmi.NoSuchObjectException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Lukas
@@ -55,60 +59,63 @@ public class CustomerService{
     }
 
 
-    public BusinessCustomerResponse ifExistsBusinessCustomer(String companyID, String companyName) {
+    public BusinessCustomer ifExistsBusinessCustomer(String companyID, String companyName) {
         List<Customer> businessCustomers = customerRepository.findCustomersByCustomerType(CustomerType.BUSINESS);
         for (Customer customer : businessCustomers) {
             BusinessCustomer temp = (BusinessCustomer) customer;
             if (temp.getCompanyID().equals(companyID) && temp.getCompanyName().equals(companyName)) {
-                return new BusinessCustomerResponse(temp);
+                return temp;
             }
         }
         return null;
     }
 
-    public PrivateCustomerResponse ifExistsPrivateCustomer(String privateID, String firstName, String lastName) {
+    public PrivateCustomer ifExistsPrivateCustomer(String privateID, String firstName, String lastName) {
         List<Customer> privateCustomers = customerRepository.findCustomersByCustomerType(CustomerType.PRIVATE);
         for (Customer customer : privateCustomers) {
             PrivateCustomer temp = (PrivateCustomer) customer;
             if (temp.getPrivateID().equals(privateID) && temp.getFirstName().equals(firstName) && temp.getLastName().equals(lastName)) {
-                return new PrivateCustomerResponse(temp);
+                return temp;
             }
         }
         return null;
     }
 
     public BusinessCustomer addNewBusinessCustomer(@Valid BusinessCustomer businessCustomer) {
-        BusinessCustomer newBusinessCustomer = new BusinessCustomer();
+        BusinessCustomer ifExists = ifExistsBusinessCustomer(businessCustomer.getCompanyID(),
+                businessCustomer.getCompanyName());
 
-        newBusinessCustomer.setId(businessCustomer.getId());
-        newBusinessCustomer.setCompanyID(businessCustomer.getCompanyID());
-        newBusinessCustomer.setCompanyName(businessCustomer.getCompanyName());
-        newBusinessCustomer.setAddress(businessCustomer.getAddress());
-        newBusinessCustomer.setEmail(businessCustomer.getEmail());
-        newBusinessCustomer.setPhoneNumber(businessCustomer.getPhoneNumber());
-        newBusinessCustomer.setCustomerType(businessCustomer.getCustomerType());
-        newBusinessCustomer.setCountry(businessCustomer.getCountry());
-        newBusinessCustomer.setUserID(businessCustomer.getUserID());
-        newBusinessCustomer.setPassword(businessCustomer.getPassword());
+        if(ifExists != null){
+            return ifExists;
+        }
 
-        return customerRepository.save(newBusinessCustomer);
+        String generatedID = UserIDGenerator.generateRandomID(12);
+        while(existsCustomerByUserID(generatedID)){
+            generatedID = UserIDGenerator.generateRandomID(12);
+        }
+
+        String hashedPass = PasswordEncryption.encrypt(generatedID, generatedID);
+        businessCustomer.setUserID(generatedID);
+        businessCustomer.setPassword(hashedPass);
+        return customerRepository.save(businessCustomer);
     }
 
     public PrivateCustomer addNewPrivateCustomer(@Valid PrivateCustomer privateCustomer) {
-        PrivateCustomer newPrivateCustomer = new PrivateCustomer();
+        PrivateCustomer ifExists = ifExistsPrivateCustomer(privateCustomer.getPrivateID(),
+                                                                   privateCustomer.getFirstName(),
+                                                                   privateCustomer.getLastName());
+        if(ifExists != null){
+            return ifExists;
+        }
 
-        newPrivateCustomer.setId(privateCustomer.getId());
-        newPrivateCustomer.setFirstName(privateCustomer.getFirstName());
-        newPrivateCustomer.setLastName(privateCustomer.getLastName());
-        newPrivateCustomer.setPrivateID(privateCustomer.getPrivateID());
-        newPrivateCustomer.setAddress(privateCustomer.getAddress());
-        newPrivateCustomer.setEmail(privateCustomer.getEmail());
-        newPrivateCustomer.setPhoneNumber(privateCustomer.getPhoneNumber());
-        newPrivateCustomer.setCustomerType(privateCustomer.getCustomerType());
-        newPrivateCustomer.setCountry(privateCustomer.getCountry());
-        newPrivateCustomer.setUserID(privateCustomer.getUserID());
-        newPrivateCustomer.setPassword(privateCustomer.getPassword());
+        String generatedID = UserIDGenerator.generateRandomID(12);
+        while(existsCustomerByUserID(generatedID)){
+            generatedID = UserIDGenerator.generateRandomID(12);
+        }
 
-        return customerRepository.save(newPrivateCustomer);
+        String hashedPass = PasswordEncryption.encrypt(generatedID, generatedID);
+        privateCustomer.setUserID(generatedID);
+        privateCustomer.setPassword(hashedPass);
+        return customerRepository.save(privateCustomer);
     }
 }

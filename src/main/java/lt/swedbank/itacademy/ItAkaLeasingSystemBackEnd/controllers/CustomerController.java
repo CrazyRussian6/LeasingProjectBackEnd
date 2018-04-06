@@ -8,8 +8,6 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCu
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.UserIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -46,38 +44,12 @@ public class CustomerController extends ResponseEntityExceptionHandler {
 
     @RequestMapping(value = "/customers/addBusinessCustomer", method = RequestMethod.POST)
     public BusinessCustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
-        BusinessCustomerResponse ifExists = customerService.ifExistsBusinessCustomer(customer.getCompanyID(), customer.getCompanyName());
-        if(ifExists != null){
-            return ifExists;
-        }
-
-        String generatedID = UserIDGenerator.generateRandomID(12);
-        while(customerService.existsCustomerByUserID(generatedID)){
-            generatedID = UserIDGenerator.generateRandomID(12);
-        }
-
-        String hashedPass = PasswordEncryption.encrypt(generatedID, generatedID);
-        customer.setUserID(generatedID);
-        customer.setPassword(hashedPass);
         return new BusinessCustomerResponse(customerService.addNewBusinessCustomer(customer));
     }
 
     @RequestMapping(value = "/customers/addPrivateCustomer", method = RequestMethod.POST)
     public CustomerResponse addCustomer(@Valid @RequestBody PrivateCustomer customer){
-        PrivateCustomerResponse ifExists = customerService.ifExistsPrivateCustomer(customer.getPrivateID(), customer.getFirstName(), customer.getLastName());
-        if(ifExists != null){
-            return ifExists;
-        }
-
-        String generatedID = UserIDGenerator.generateRandomID(12);
-        while(customerService.existsCustomerByUserID(generatedID)){
-            generatedID = UserIDGenerator.generateRandomID(12);
-        }
-
-        String hashedPass = PasswordEncryption.encrypt(generatedID, generatedID);
-        customer.setUserID(generatedID);
-        customer.setPassword(hashedPass);
-
+        System.out.println(customer);
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
     }
 
