@@ -5,13 +5,14 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ResetTokenRepository extends CrudRepository<PasswordResetToken, Long> {
 
     List<PasswordResetToken> findAll();
 
-    PasswordResetToken findByToken(String token);
+    Optional<PasswordResetToken> findByToken(String token);
 
-    PasswordResetToken findByCustomerID(String customerID);
+    Optional<PasswordResetToken> findByCustomerID(String customerID);
 }

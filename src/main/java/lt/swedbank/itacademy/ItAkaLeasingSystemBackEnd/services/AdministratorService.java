@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdministratorService {
@@ -19,6 +20,12 @@ public class AdministratorService {
     }
 
     AdministratorResponse getAdministratorByID(String userID){
-        return new AdministratorResponse(administratorRepository.findAdministratorByUserID(userID));
+        Optional<Administrator> optional = administratorRepository.findAdministratorByUserID(userID);
+        if(optional.isPresent()){
+            return new AdministratorResponse(optional.get());
+        }
+        else{
+            return null;
+        }
     }
 }

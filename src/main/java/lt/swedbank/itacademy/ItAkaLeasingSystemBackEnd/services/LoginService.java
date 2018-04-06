@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LoginService {
@@ -39,11 +40,12 @@ public class LoginService {
     private ResetTokenRepository resetTokenRepository;
 
     public Object login(LoginCredentials loginCredentials) {
-        Customer user = customerRepository.findCustomerByUserID(loginCredentials.getUserId());
-        if (user == null) {
+        Optional<Customer> userOptional = customerRepository.findCustomerByUserID(loginCredentials.getUserId());
+        if (!userOptional.isPresent()) {
             return null;
         }
 
+        Customer user = userOptional.get();
         boolean decrypted = PasswordEncryption.decrypt(loginCredentials.getUserId(), loginCredentials.getPassword(),
                 user.getPassword());
 
@@ -67,19 +69,20 @@ public class LoginService {
     public Object administratorLogin(LoginCredentials loginCredentials) {
 
         //Add new admin with default credentials
-        /*String hashedPass = PasswordEncryption.encrypt(loginCredentials.getUserId(), loginCredentials.getPassword());
+        if(administratorRepository.findAll().isEmpty()){
+            String hashedPass = PasswordEncryption.encrypt("admin", "root");
 
-        Administrator admin = new Administrator();
-        admin.setUserID(loginCredentials.getUserId());
-        admin.setPassword(hashedPass);
+            Administrator admin = new Administrator();
+            admin.setUserID("admin");
+            admin.setPassword(hashedPass);
+            administratorRepository.save(admin);
+        }
 
-        administratorRepository.save(admin);*/
-
-        Administrator administrator = administratorRepository.findAdministratorByUserID(loginCredentials.getUserId());
-        if (administrator == null) {
+        Optional<Administrator> optional = administratorRepository.findAdministratorByUserID(loginCredentials.getUserId());
+        if (!optional.isPresent()) {
             return new ResponseEntity<>("Invalid user", HttpStatus.BAD_REQUEST);
         } else {
-
+            Administrator administrator = optional.get();
             boolean decrypted = PasswordEncryption.decrypt(loginCredentials.getUserId(), loginCredentials.getPassword(),
                     administrator.getPassword());
             if (decrypted) {
@@ -104,9 +107,12 @@ public class LoginService {
         String oldPassword = passwordRequest.getOldPassword();
         String newPassword = passwordRequest.getNewPassword();
 
-        Customer customer = customerRepository.findCustomerByUserID(userId);
-        System.out.println(customer);
+        Optional<Customer> optional = customerRepository.findCustomerByUserID(userId);
+        if(!optional.isPresent()){
+            return null;
+        }
 
+        Customer customer = optional.get();
         boolean decryptedOldPassLegit = PasswordEncryption.decrypt(userId, oldPassword,
                 customer.getPassword());
         if (!decryptedOldPassLegit) {
@@ -135,13 +141,15 @@ public class LoginService {
         String newPassword = passwordRequest.getNewPassword();
 
 
-        PasswordResetToken tokenRep = resetTokenRepository.findByToken(token);
-
-        Customer customer = customerRepository.findCustomerByUserID(userId);
-        if (customer == null || tokenRep == null || (!tokenRep.getCustomerID().equals(userId))) {
+        Optional<PasswordResetToken> optionalToken = resetTokenRepository.findByToken(token);
+        Optional<Customer> optionalCustomer = customerRepository.findCustomerByUserID(userId);
+        if (!optionalToken.isPresent()||!optionalCustomer.isPresent()|| (!optionalToken.get().getCustomerID().equals(userId))) {
             System.out.println("bad token");
             return false;
         }
+
+        Customer customer = optionalCustomer.get();
+        PasswordResetToken tokenRep = optionalToken.get();
 
         String encryptedPass = PasswordEncryption.encrypt(userId, newPassword);
         customer.setPassword(encryptedPass);
