@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class VehicleLeasing extends Leasing {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     @NotNull(message = "manufacturer must be specified")
     private String manufacturer;
@@ -59,11 +59,11 @@ public class VehicleLeasing extends Leasing {
         this.enginePower = enginePower;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

@@ -1,6 +1,6 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front;
 
-public class Credentials {
+public class EmailCredentials {
 
     private String userId;
     private String email;

@@ -1,11 +1,12 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.BusinessCustomer;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.PrivateCustomer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Credentials;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Login;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.PasswordRequest;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.*;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.EmailCredentials;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCustomerResponse;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerResponse;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.UserIDGenerator;
@@ -93,7 +94,7 @@ public class CustomerController extends ResponseEntityExceptionHandler {
     }
 
     @RequestMapping(value = "/customers/check", method = RequestMethod.POST)
-    public ResponseEntity<Object> existsCustomerByIdAndEmail(@RequestBody Credentials credentials){
+    public ResponseEntity<Object> existsCustomerByIdAndEmail(@RequestBody EmailCredentials credentials){
         boolean exists = customerService.existsCustomerByUserIDAndEmail(credentials.getUserId(), credentials.getEmail());
         return exists ? new ResponseEntity<>("User found", HttpStatus.OK) :
                 new ResponseEntity<>("No such user found", HttpStatus.NOT_FOUND);

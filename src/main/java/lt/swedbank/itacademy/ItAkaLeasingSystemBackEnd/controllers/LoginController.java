@@ -1,6 +1,6 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Login;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.LoginCredentials;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.PasswordRequest;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.VehicleLeasingResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.LoginService;
@@ -17,12 +17,12 @@ public class LoginController {
     private LoginService loginService;
 
     @RequestMapping(value = "/customers/login", method = RequestMethod.POST)
-    public Object Login(@RequestBody Login loginData){
+    public Object Login(@RequestBody LoginCredentials loginData){
         return loginService.login(loginData);
     }
 
     @RequestMapping(value = "/officer/login", method = RequestMethod.POST)
-    public Object OfficerLogin(@RequestBody Login loginData){
+    public Object OfficerLogin(@RequestBody LoginCredentials loginData){
         return loginService.administratorLogin(loginData);
     }
 
