@@ -1,6 +1,7 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.VehicleLeasing;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.LeasingStatus;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.VehicleLeasingResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.VehicleLeasingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,11 @@ public class VehicleLeasingController {
     @RequestMapping(value = "/vehicleLeasings/{id}", method = RequestMethod.POST)
     public List<VehicleLeasingResponse> getAllVehicleLeasingsByID(@PathVariable("id") String id){
         return vehicleLeasingService.findVehicleLeasingsByCustomerID(id);
+    }
+
+    @RequestMapping(value = "/vehicleLeasings/updatestatus{id}", method = RequestMethod.PUT)
+    public VehicleLeasing updateVehicleLeasingStatus(@PathVariable("id") String id,
+                                                     @Valid @RequestBody VehicleLeasing leasing){
+        return vehicleLeasingService.updateVehicleLeasingStatus(id, leasing);
     }
 }

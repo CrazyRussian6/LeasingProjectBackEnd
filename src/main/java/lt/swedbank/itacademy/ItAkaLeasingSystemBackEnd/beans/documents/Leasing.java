@@ -3,11 +3,9 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.LeasingStatus;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.constraints.LeasingPeriodStepConstraint;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.constraints.PaymentDateValueConstraint;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -51,7 +49,7 @@ public class Leasing {
     private String customerID;
 
     //@NotNull(message = "leasing status must be defined")
-    private LeasingStatus leasingStatus = LeasingStatus.APPROVED;
+    private LeasingStatus leasingStatus = LeasingStatus.PROCESSED;
 
 
     //@NotNull(message = "submission date must be defined")

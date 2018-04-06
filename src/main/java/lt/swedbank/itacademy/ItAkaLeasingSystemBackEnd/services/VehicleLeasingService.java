@@ -1,10 +1,12 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.VehicleLeasing;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.LeasingStatus;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.VehicleLeasingResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleLeasingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -53,5 +55,13 @@ public class VehicleLeasingService {
             responses.add(new VehicleLeasingResponse(vehicleLeasing));
         }
         return responses;
+    }
+
+    public VehicleLeasing updateVehicleLeasingStatus(String leasingId, @Valid @RequestBody VehicleLeasing leasing){
+        System.out.println(leasing.getAdvancePaymentAmount());
+        System.out.println(leasing.getLeasingStatus());
+        VehicleLeasing newLeasing = vehicleLeasingRepository.findVehicleLeasingById(leasingId);
+        newLeasing.setLeasingStatus(leasing.getLeasingStatus());
+        return vehicleLeasingRepository.save(newLeasing);
     }
 }

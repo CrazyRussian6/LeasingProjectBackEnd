@@ -39,10 +39,8 @@ public class EmailController {
         else{
             PasswordResetToken tokenCheck = resetTokenService.findByCustomerID(customer.getUserID());
             if(tokenCheck != null){
-                System.out.println("Token exists in db");
-                if(!emailService.validTimePassed(tokenCheck, 10)){
-                    System.out.println("10 MINUTES HAVEN'T PASSED!");
-                    return new ResponseEntity<>("10 MINUTES HAVEN'T PASSED", HttpStatus.FORBIDDEN);
+                if(!emailService.validTimePassed(tokenCheck, 2)){
+                    return new ResponseEntity<>("Only one request every 2 minutes", HttpStatus.FORBIDDEN);
                 }
                 else{
                     resetTokenService.deleteByToken(tokenCheck.getToken());
@@ -80,7 +78,6 @@ public class EmailController {
             return new ResponseEntity<>("Bad link", HttpStatus.NOT_FOUND);
         }
         else{
-            //TODO: validate token properly
             String tokenStatus = PasswordResetTokenUtils.validate(resetToken);
 
             if(tokenStatus.equals("valid")){

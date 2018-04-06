@@ -11,4 +11,5 @@ public interface VehicleLeasingRepository extends CrudRepository<VehicleLeasing,
 
     List<VehicleLeasing> findAll();
     List<VehicleLeasing> findVehicleLeasingsByCustomerID(String customerID);
+    VehicleLeasing findVehicleLeasingById(String id);
 }
