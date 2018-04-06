@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VehicleLeasingService {
@@ -58,10 +59,13 @@ public class VehicleLeasingService {
     }
 
     public VehicleLeasing updateVehicleLeasingStatus(String leasingId, @Valid @RequestBody VehicleLeasing leasing){
-        System.out.println(leasing.getAdvancePaymentAmount());
-        System.out.println(leasing.getLeasingStatus());
-        VehicleLeasing newLeasing = vehicleLeasingRepository.findVehicleLeasingById(leasingId);
-        newLeasing.setLeasingStatus(leasing.getLeasingStatus());
-        return vehicleLeasingRepository.save(newLeasing);
+        Optional<VehicleLeasing> optional = vehicleLeasingRepository.findVehicleLeasingById(leasingId);
+        if(optional.isPresent()){
+            optional.get().setLeasingStatus(leasing.getLeasingStatus());
+            return vehicleLeasingRepository.save(optional.get());
+        }
+        else{
+            return null;
+        }
     }
 }

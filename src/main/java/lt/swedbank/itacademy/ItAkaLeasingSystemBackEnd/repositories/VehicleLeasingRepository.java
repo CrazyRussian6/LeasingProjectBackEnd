@@ -5,11 +5,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface VehicleLeasingRepository extends CrudRepository<VehicleLeasing, String> {
 
     List<VehicleLeasing> findAll();
     List<VehicleLeasing> findVehicleLeasingsByCustomerID(String customerID);
-    VehicleLeasing findVehicleLeasingById(String id);
+    Optional<VehicleLeasing> findVehicleLeasingById(String id);
 }

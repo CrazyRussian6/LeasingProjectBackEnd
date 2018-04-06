@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.rmi.NoSuchObjectException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Lukas
@@ -33,11 +35,11 @@ public class CustomerService{
     }
 
     public Customer findCustomerByEmail(String email){
-        return customerRepository.findCustomerByEmail(email);
+        return customerRepository.findCustomerByEmail(email).orElse(null);
     }
 
     public Customer findCustomerByUserID(String userID){
-        return customerRepository.findCustomerByUserID(userID);
+        return customerRepository.findCustomerByUserID(userID).orElse(null);
     }
 
     public List<CustomerResponse> getAllCustomers() {
