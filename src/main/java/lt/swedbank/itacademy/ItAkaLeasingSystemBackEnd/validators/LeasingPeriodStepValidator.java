@@ -17,6 +17,9 @@ public class LeasingPeriodStepValidator implements ConstraintValidator<LeasingPe
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        return (value >= 6) && (value <= 84) && (value%6 == 0);
+        if(value == null){
+            return false;
+        }
+        return value%6 == 0;
     }
 }

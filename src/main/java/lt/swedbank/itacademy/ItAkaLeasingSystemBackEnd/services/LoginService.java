@@ -2,6 +2,8 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Administrator;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.VehicleLeasing;
@@ -21,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +42,7 @@ public class LoginService {
     @Autowired
     private ResetTokenRepository resetTokenRepository;
 
-    public Object login(LoginCredentials loginCredentials) {
+    public String login(LoginCredentials loginCredentials) {
         Optional<Customer> userOptional = customerRepository.findCustomerByUserID(loginCredentials.getUserId());
         if (!userOptional.isPresent()) {
             return null;
@@ -51,16 +54,22 @@ public class LoginService {
 
         if (loginCredentials.getUserId().equals(user.getUserID()) && decrypted) {
             if (loginCredentials.getUserId().equals(loginCredentials.getPassword()) && !user.isChangedPassword()) {
-                ObjectMapper mapper = new ObjectMapper();
                 try {
                     user.setChangedPassword(true);
                     customerRepository.save(user);
-                    return mapper.writeValueAsString("Password exists");
-                } catch (JsonProcessingException e) {
+                    return new ObjectMapper().writeValueAsString("first login");
+                }
+                catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
-            } else {
-                return vehicleLeasingRepository.findVehicleLeasingsByCustomerID(user.getId().toString());
+            }
+            else {
+                try {
+                    return new ObjectMapper().writeValueAsString(createJWToken("user", "user"));
+                }
+                catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return null;
@@ -77,7 +86,6 @@ public class LoginService {
             admin.setPassword(hashedPass);
             administratorRepository.save(admin);
         }
-
         Optional<Administrator> optional = administratorRepository.findAdministratorByUserID(loginCredentials.getUserId());
         if (!optional.isPresent()) {
             return new ResponseEntity<>("Invalid user", HttpStatus.BAD_REQUEST);
@@ -94,11 +102,19 @@ public class LoginService {
                             vehicleLeasingRepository.findVehicleLeasingsByCustomerID(customer.getId().toString());
                     customerLoans.add(new CustomerLoans(customer, customerLeasings));
                 }
-                return customerLoans;
-            } else {
+
+                try {
+                    return new ObjectMapper().writeValueAsString(createJWToken("admin", "admin"));
+                }
+                catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
                 return new ResponseEntity<>("Invalid credentials", HttpStatus.NOT_FOUND);
             }
         }
+        return null;
     }
 
     public List<VehicleLeasingResponse> changePassword(PasswordRequest passwordRequest) {
@@ -158,5 +174,10 @@ public class LoginService {
         resetTokenRepository.delete(tokenRep);
 
         return true;
+    }
+
+    private String createJWToken(String subject, String roles){
+        return Jwts.builder().setSubject(subject).claim("roles", roles).setIssuedAt(new Date())
+                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
     }
 }

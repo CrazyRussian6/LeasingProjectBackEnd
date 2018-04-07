@@ -4,6 +4,7 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.LoginCredenti
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.PasswordRequest;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.VehicleLeasingResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.LoginService;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.EndPoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,22 +17,22 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @RequestMapping(value = "/customers/login", method = RequestMethod.POST)
-    public Object Login(@RequestBody LoginCredentials loginData){
+    @RequestMapping(value = EndPoints.CUSTOMERS_LOGIN, method = RequestMethod.POST)
+    public String Login(@RequestBody LoginCredentials loginData){
         return loginService.login(loginData);
     }
 
-    @RequestMapping(value = "/officer/login", method = RequestMethod.POST)
+    @RequestMapping(value = EndPoints.OFFICER_LOGIN, method = RequestMethod.POST)
     public Object OfficerLogin(@RequestBody LoginCredentials loginData){
         return loginService.administratorLogin(loginData);
     }
 
-    @RequestMapping(value = "/customers/change/password", method = RequestMethod.POST)
+    @RequestMapping(value = EndPoints.CUSTOMERS_CHANGE_PASSWORD, method = RequestMethod.POST)
     public List<VehicleLeasingResponse> changePassword(@RequestBody PasswordRequest passwordRequest){
         return loginService.changePassword(passwordRequest);
     }
 
-    @RequestMapping(value = "customers/change/forgot", method = RequestMethod.POST)
+    @RequestMapping(value = EndPoints.CUSTOMERS_CHANGE_FORGOT, method = RequestMethod.POST)
     public boolean passwordRecovery(@RequestBody PasswordRequest passwordRequest){
         return loginService.passwordRecovery(passwordRequest);
     }

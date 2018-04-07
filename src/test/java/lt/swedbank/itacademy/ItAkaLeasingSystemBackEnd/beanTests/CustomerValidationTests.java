@@ -1,7 +1,6 @@
-package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd;
+package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beanTests;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
-import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.PrivateCustomer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,55 +16,51 @@ import static junit.framework.TestCase.assertTrue;
 /**
  * @author Lukas
  */
-public class PrivateCustomerValidationTests {
+public class CustomerValidationTests {
 
     private static Validator validator;
-    private PrivateCustomer testCustomer;
+    private static Customer testCustomer;
 
     @Before
     public void setUp(){
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
-        initPrivateCustomer();
+        initCustomer();
     }
 
-    private void initPrivateCustomer(){
-        PrivateCustomer customer = new PrivateCustomer();
+    private void initCustomer(){
+        Customer customer = new Customer();
         customer.setEmail("correct.email@gmail.com");
         customer.setAddress("non empty address");
         customer.setPhoneNumber(new BigInteger("860123456"));
-        customer.setFirstName("First name");
-        customer.setLastName("Last name");
-        customer.setPrivateID("12345678901");
         testCustomer = customer;
     }
 
     @Test
-    public void PrivateCustomerFirstNameNonNullTest(){
-        //testCustomer.setFirstName(null);
+    public void CustomerEmailFormatTest(){
+        testCustomer.setEmail("oaskdaodkaoskdadsokasd");
         Set<ConstraintViolation<Customer>> violations = validator.validate(testCustomer);
-        assertTrue(violations.isEmpty());
+        assertTrue(!violations.isEmpty());
     }
 
     @Test
-    public void PrivateCustomerLastNameNonNullTest(){
-        //testCustomer.setLastName(null);
+    public void CustomerEmailNonNullTest(){
+        testCustomer.setEmail(null);
         Set<ConstraintViolation<Customer>> violations = validator.validate(testCustomer);
-        assertTrue(violations.isEmpty());
+        assertTrue(!violations.isEmpty());
     }
 
     @Test
-    public void PrivateCustomerPrivateIDNonNullTest(){
-        //testCustomer.setPrivateID(null);
+    public void CustomerAddressNonNullTest(){
+        testCustomer.setAddress(null);
         Set<ConstraintViolation<Customer>> violations = validator.validate(testCustomer);
-        assertTrue(violations.isEmpty());
+        assertTrue(!violations.isEmpty());
     }
 
-    @Test(expected = NumberFormatException.class)
-    public void PrivateCustomerPrivateIDIsNumericTest(){
-        testCustomer.setPrivateID("1234567890x");
-        BigInteger i = new BigInteger(testCustomer.getPrivateID());
+    @Test
+    public void CustomerPhoneNumberNonNullTest(){
+        testCustomer.setPhoneNumber(null);
         Set<ConstraintViolation<Customer>> violations = validator.validate(testCustomer);
-        assertTrue(violations.isEmpty());
+        assertTrue(!violations.isEmpty());
     }
 }

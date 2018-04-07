@@ -8,6 +8,7 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.BusinessCu
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.EndPoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,40 +38,41 @@ public class CustomerController extends ResponseEntityExceptionHandler {
     @Autowired
     private CustomerService customerService;
 
-    @RequestMapping(value = "/customers")
+    @RequestMapping(value = EndPoints.CUSTOMERS)
     public List<CustomerResponse> getAllCustomers(){
         return customerService.getAllCustomers();
     }
 
-    @RequestMapping(value = "/customers/addBusinessCustomer", method = RequestMethod.POST)
+    @RequestMapping(value = EndPoints.CUSTOMERS_ADD_BUSINESS_CUSTOMER, method = RequestMethod.POST)
     public BusinessCustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
         return new BusinessCustomerResponse(customerService.addNewBusinessCustomer(customer));
     }
 
-    @RequestMapping(value = "/customers/addPrivateCustomer", method = RequestMethod.POST)
+    @RequestMapping(value = EndPoints.CUSTOMERS_ADD_PRIVATE_CUSTOMER, method = RequestMethod.POST)
     public CustomerResponse addCustomer(@Valid @RequestBody PrivateCustomer customer){
-        System.out.println(customer);
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
     }
 
-    @RequestMapping(value = "/customers/{userId}", method = RequestMethod.POST)
+    @RequestMapping(value = EndPoints.CUSTOMERS_USER_ID, method = RequestMethod.POST)
     public ResponseEntity existsCustomerByID(@PathVariable("userId") String userId){
         boolean exists = customerService.existsCustomerByUserID(userId);
         return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "customers/{email}", method = RequestMethod.GET)
+    @RequestMapping(value = EndPoints.CUSTOMERS_EMAIL, method = RequestMethod.POST)
     public ResponseEntity existsCustomerByEmail(@PathVariable("email") String email){
         boolean exists = customerService.existsCustomerByEmail(email);
         return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/customers/check", method = RequestMethod.POST)
+    @RequestMapping(value = EndPoints.CUSTOMERS_CHECK, method = RequestMethod.POST)
     public ResponseEntity<Object> existsCustomerByIdAndEmail(@RequestBody EmailCredentials credentials){
         boolean exists = customerService.existsCustomerByUserIDAndEmail(credentials.getUserId(), credentials.getEmail());
         return exists ? new ResponseEntity<>("User found", HttpStatus.OK) :
                 new ResponseEntity<>("No such user found", HttpStatus.NOT_FOUND);
     }
+
+
 
 
     @Override
