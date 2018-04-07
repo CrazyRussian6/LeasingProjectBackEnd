@@ -1,6 +1,7 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * Created by Lukas on 2018-03-20.
@@ -103,4 +104,24 @@ public class CustomerResponse extends Response{
     public void setPassword(String password) {
         this.password = password;
     } */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CustomerResponse)) return false;
+        CustomerResponse that = (CustomerResponse) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getEmail(), that.getEmail()) &&
+                Objects.equals(getPhoneNumber(), that.getPhoneNumber()) &&
+                Objects.equals(getAddress(), that.getAddress()) &&
+                Objects.equals(getCustomerType(), that.getCustomerType()) &&
+                Objects.equals(getCountry(), that.getCountry()) &&
+                Objects.equals(getUserID(), that.getUserID());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getEmail(), getPhoneNumber(), getAddress(), getCustomerType(), getCountry(), getUserID());
+    }
 }

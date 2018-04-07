@@ -1,5 +1,6 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
 
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.VehicleLeasing;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.VehicleLeasingResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleLeasingRepository;
@@ -17,6 +18,9 @@ public class VehicleLeasingService {
 
     @Autowired
     private VehicleLeasingRepository vehicleLeasingRepository;
+
+    @Autowired
+    private CustomerService customerService;
 
     public VehicleLeasing addNewVehicleLeasing(@Valid VehicleLeasing vehicleLeasing) {
         VehicleLeasing newVehicleLeasing = new VehicleLeasing();
@@ -49,12 +53,9 @@ public class VehicleLeasingService {
         return responses;
     }
 
-    public List<VehicleLeasingResponse> findVehicleLeasingsByCustomerID(String customerID) {
-        List<VehicleLeasingResponse> responses = new ArrayList<>();
-        for (VehicleLeasing vehicleLeasing : vehicleLeasingRepository.findVehicleLeasingsByCustomerID(customerID)) {
-            responses.add(new VehicleLeasingResponse(vehicleLeasing));
-        }
-        return responses;
+    public List<VehicleLeasing> findVehicleLeasingsByCustomerID(String customerID) {
+        Customer customer = customerService.findCustomerByUserID(customerID);
+        return vehicleLeasingRepository.findVehicleLeasingsByCustomerID(customer.getId().toString());
     }
 
     public VehicleLeasing updateVehicleLeasingStatus(String leasingId, @Valid @RequestBody VehicleLeasing leasing){

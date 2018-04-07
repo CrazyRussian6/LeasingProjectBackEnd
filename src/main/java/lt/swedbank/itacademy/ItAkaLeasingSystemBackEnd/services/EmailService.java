@@ -2,6 +2,7 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.tokens.PasswordResetToken;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.EndPoints;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordResetTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,7 +56,7 @@ public class EmailService {
 
             PasswordResetToken token = new PasswordResetToken(customer.getUserID(), UUID.randomUUID().toString(), cal.getTime(), new Date());
 
-            String recoveryUrl = "http://localhost:4200/new-pass?token=" + token.getToken();
+            String recoveryUrl = EndPoints.PASS_RECOVERY_TOKEN_LINK + token.getToken();
 
             System.out.println(recoveryUrl);
 
@@ -65,7 +66,7 @@ public class EmailService {
             recoveryMessage.setSubject("Password reset request");
             recoveryMessage.setText("To reset your password, click the link below:\n" + recoveryUrl);
 
-            sendEmail(recoveryMessage);
+            //sendEmail(recoveryMessage);
             resetTokenService.addToken(token);
 
             return new ResponseEntity<>("Password request successful", HttpStatus.OK);

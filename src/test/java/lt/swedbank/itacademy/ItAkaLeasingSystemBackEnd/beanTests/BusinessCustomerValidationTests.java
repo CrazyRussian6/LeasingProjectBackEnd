@@ -1,7 +1,8 @@
-package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd;
+package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beanTests;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.BusinessCustomer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.CustomerType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Set;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 /**
@@ -37,20 +39,22 @@ public class BusinessCustomerValidationTests {
         customer.setPhoneNumber(new BigInteger("860158722"));
         customer.setCompanyName("Swedbank");
         customer.setCompanyID("12345");
+        customer.setCountry("testistan");
+        customer.setCustomerType(CustomerType.BUSINESS);
         testCustomer = customer;
     }
 
     @Test
     public void BusinessCustomerCompanyNameNonNullTest(){
-        //testCustomer.setCompanyName(null);
+        testCustomer.setCompanyName(null);
         Set<ConstraintViolation<Customer>> violations = validator.validate(testCustomer);
-        assertTrue(violations.isEmpty());
+        assertEquals(1, violations.size());
     }
 
     @Test
     public void BusinessCustomerCompanyIDNonNullTest(){
-        //testCustomer.setCompanyID(null);
+        testCustomer.setCompanyID(null);
         Set<ConstraintViolation<Customer>> violations = validator.validate(testCustomer);
-        assertTrue(violations.isEmpty());
+        assertEquals(1, violations.size());
     }
 }
