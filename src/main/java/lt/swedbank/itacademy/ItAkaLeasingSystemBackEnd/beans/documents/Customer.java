@@ -10,6 +10,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
+/*<<<<<<< HEAD
+=======*/
+import java.util.Objects;
+//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 
 @MappedSuperclass
 public class Customer {
@@ -45,6 +49,25 @@ public class Customer {
 
     private boolean changedPassword = false;
 
+/*<<<<<<< HEAD
+=======*/
+    public Customer() {
+    }
+
+    public Customer(ObjectId id, String email, BigInteger phoneNumber, String address, CustomerType customerType,
+                    String country, String userID, String password, boolean changedPassword) {
+        this.id = id;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.customerType = customerType;
+        this.country = country;
+        this.userID = userID;
+        this.password = password;
+        this.changedPassword = changedPassword;
+    }
+
+//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
     public ObjectId getId() {
         return id;
     }
@@ -116,4 +139,29 @@ public class Customer {
     public void setChangedPassword(boolean changedPassword) {
         this.changedPassword = changedPassword;
     }
+/*<<<<<<< HEAD
+=======*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Customer)) return false;
+        Customer customer = (Customer) o;
+        return isChangedPassword() == customer.isChangedPassword() &&
+                Objects.equals(getId(), customer.getId()) &&
+                Objects.equals(getEmail(), customer.getEmail()) &&
+                Objects.equals(getPhoneNumber(), customer.getPhoneNumber()) &&
+                Objects.equals(getAddress(), customer.getAddress()) &&
+                getCustomerType() == customer.getCustomerType() &&
+                Objects.equals(getCountry(), customer.getCountry()) &&
+                Objects.equals(getUserID(), customer.getUserID()) &&
+                Objects.equals(getPassword(), customer.getPassword());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getEmail(), getPhoneNumber(), getAddress(), getCustomerType(), getCountry(), getUserID(), getPassword(), isChangedPassword());
+    }
+//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 }

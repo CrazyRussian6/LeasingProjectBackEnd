@@ -1,5 +1,6 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
+//<<<<<<< HEAD
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.tokens.PasswordResetToken;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
@@ -17,6 +18,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+//=======
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.EmailService;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.EndPoints;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 @RestController
 @CrossOrigin
 public class EmailController {
@@ -24,6 +33,7 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
+/*<<<<<<< HEAD
     @Autowired
     private CustomerService customerService;
 
@@ -92,5 +102,15 @@ public class EmailController {
             }
             return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
         }
+=======*/
+    @RequestMapping(value= EndPoints.CUSTOMERS_FORGOTPASSWORD_EMAIL, method = RequestMethod.POST)
+    public ResponseEntity<String> forgotPassword(@PathVariable("email") String email){
+        return emailService.forgotPassword(email);
+    }
+
+    @RequestMapping(value = EndPoints.CUSTOMERS_RESETPASSWORDVAL, method = RequestMethod.GET)
+    public ResponseEntity<String> resetPassword(@RequestParam("token") String token){
+        return emailService.resetPassword(token);
+//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
     }
 }

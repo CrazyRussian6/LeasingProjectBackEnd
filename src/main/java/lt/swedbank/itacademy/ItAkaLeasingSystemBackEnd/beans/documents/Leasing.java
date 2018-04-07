@@ -3,11 +3,17 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.LeasingStatus;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.constraints.LeasingPeriodStepConstraint;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.constraints.PaymentDateValueConstraint;
+
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+
+
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,7 +32,11 @@ public class Leasing {
     @Min(value = 6, message = "leasing period can not be less than 6 months")
     @Max(value = 84, message = "leasing period can not be more than 84 months")
     @LeasingPeriodStepConstraint(message = "incorrect leasing period")
-    private int leasingPeriod;
+
+  //  private int leasingPeriod;
+
+    private Integer leasingPeriod;
+
 
     @NotNull(message = "margin must be specified")
     @DecimalMin(value = "3.2", message = "margin can not be less than 3.2%")
@@ -51,11 +61,32 @@ public class Leasing {
     private String customerID;
 
     //@NotNull(message = "leasing status must be defined")
-    private LeasingStatus leasingStatus = LeasingStatus.APPROVED;
+
+  //  private LeasingStatus leasingStatus = LeasingStatus.APPROVED;
+    private LeasingStatus leasingStatus = LeasingStatus.PROCESSED;
+
 
 
     //@NotNull(message = "submission date must be defined")
     private String submissionDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+
+    public Leasing() {
+    }
+
+    public Leasing(BigDecimal advancePaymentPercent, BigDecimal advancePaymentAmount, int leasingPeriod, BigDecimal margin,
+                   BigDecimal contractFee, BigDecimal assetPrice, int paymentDate, String customerID, LeasingStatus leasingStatus) {
+        this.advancePaymentPercent = advancePaymentPercent;
+        this.advancePaymentAmount = advancePaymentAmount;
+        this.leasingPeriod = leasingPeriod;
+        this.margin = margin;
+        this.contractFee = contractFee;
+        this.assetPrice = assetPrice;
+        this.paymentDate = paymentDate;
+        this.customerID = customerID;
+        this.leasingStatus = leasingStatus;
+    }
+
 
     public String getCustomerID() {
         return customerID;
@@ -81,11 +112,19 @@ public class Leasing {
         this.advancePaymentAmount = advancePaymentAmount;
     }
 
-    public int getLeasingPeriod() {
+
+  /*  public int getLeasingPeriod() {
         return leasingPeriod;
     }
 
-    public void setLeasingPeriod(int leasingPeriod) {
+    public void setLeasingPeriod(int leasingPeriod) {*/
+
+    public Integer getLeasingPeriod() {
+        return leasingPeriod;
+    }
+
+    public void setLeasingPeriod(Integer leasingPeriod) {
+
         this.leasingPeriod = leasingPeriod;
     }
 
