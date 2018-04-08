@@ -10,6 +10,7 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerRe
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers.CustomerController;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.EndPoints;
 import org.bson.types.ObjectId;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -19,7 +20,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -31,7 +34,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
+import static org.hamcrest.core.Is.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebAppConfiguration
 public class CustomerControllerTests {
@@ -114,7 +122,6 @@ public class CustomerControllerTests {
         Assert.assertTrue("empty HTTP response body", content.trim().length() > 0);
         Assert.assertEquals(testPrivateCustomerJSON, content);
     }
-
 
     @Before
     public void setUp() {
