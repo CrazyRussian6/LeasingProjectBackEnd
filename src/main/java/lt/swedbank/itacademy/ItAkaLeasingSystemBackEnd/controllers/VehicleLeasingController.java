@@ -31,7 +31,7 @@ public class VehicleLeasingController {
         return new VehicleLeasingResponse(vehicleLeasingService.addNewVehicleLeasing(vehicleLeasing));
     }
 
-    @RequestMapping(value = EndPoints.VEHICLE_LEASINGS_ID, method = RequestMethod.GET)
+    @RequestMapping(value = EndPoints.VEHICLE_LEASINGS_GET_BY_ID, method = RequestMethod.GET)
     public List<VehicleLeasing> getAllVehicleLeasingsByID(@PathVariable("id") String id){
         return vehicleLeasingService.findVehicleLeasingsByCustomerID(id);
     }

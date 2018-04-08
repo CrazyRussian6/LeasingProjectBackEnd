@@ -53,19 +53,19 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
     }
 
-    @RequestMapping(value = EndPoints.CUSTOMERS_USER_ID, method = RequestMethod.POST)
+    @RequestMapping(value = EndPoints.CUSTOMERS_EXISTS_BY_USER_ID, method = RequestMethod.POST)
     public ResponseEntity existsCustomerByID(@PathVariable("userId") String userId){
         boolean exists = customerService.existsCustomerByUserID(userId);
         return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = EndPoints.CUSTOMERS_EMAIL, method = RequestMethod.POST)
+    @RequestMapping(value = EndPoints.CUSTOMERS_EXISTS_BY_EMAIL, method = RequestMethod.POST)
     public ResponseEntity existsCustomerByEmail(@PathVariable("email") String email){
         boolean exists = customerService.existsCustomerByEmail(email);
         return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = EndPoints.CUSTOMERS_CHECK, method = RequestMethod.POST)
+    @RequestMapping(value = EndPoints.CUSTOMERS_EXISTSBY_ID_AND_EMAIL, method = RequestMethod.POST)
     public ResponseEntity<Object> existsCustomerByIdAndEmail(@RequestBody EmailCredentials credentials){
         boolean exists = customerService.existsCustomerByUserIDAndEmail(credentials.getUserId(), credentials.getEmail());
         return exists ? new ResponseEntity<>("User found", HttpStatus.OK) :
