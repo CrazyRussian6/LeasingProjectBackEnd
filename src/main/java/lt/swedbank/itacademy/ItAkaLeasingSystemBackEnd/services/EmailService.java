@@ -60,11 +60,15 @@ public class EmailService {
 
             System.out.println(recoveryUrl);
 
+            String recoveryText = "A password reset has been requested for the user ID: " + customer.getUserID() + "\n\n"
+                    + "If you have requested this and want to reset your password, please visit this link: " + "\n\n"
+                    + recoveryUrl;
+
             SimpleMailMessage recoveryMessage = new SimpleMailMessage();
             recoveryMessage.setFrom("leasingservicemail@gmail.com");
             recoveryMessage.setTo(email);
-            recoveryMessage.setSubject("Password reset request");
-            recoveryMessage.setText("To reset your password, click the link below:\n" + recoveryUrl);
+            recoveryMessage.setSubject("Reset your password");
+            recoveryMessage.setText(recoveryText);
 
             sendEmail(recoveryMessage);
             resetTokenService.addToken(token);
