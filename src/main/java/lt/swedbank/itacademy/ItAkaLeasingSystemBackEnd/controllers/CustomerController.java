@@ -109,28 +109,40 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
     }
 
+/*<<<<<<< HEAD
     @RequestMapping(value = EndPoints.CUSTOMERS_USER_ID, method = RequestMethod.POST)
 //>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
+=======*/
+    @RequestMapping(value = EndPoints.CUSTOMERS_EXISTS_BY_USER_ID, method = RequestMethod.POST)
+//>>>>>>> feb357677f54cc8522fe49555a7569ff98e62c03
     public ResponseEntity existsCustomerByID(@PathVariable("userId") String userId){
         boolean exists = customerService.existsCustomerByUserID(userId);
         return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
 /*<<<<<<< HEAD
+/*<<<<<<< HEAD
     @RequestMapping(value = "/customers/{email}", method = RequestMethod.GET)
 =======*/
-    @RequestMapping(value = EndPoints.CUSTOMERS_EMAIL, method = RequestMethod.POST)
+    /*@RequestMapping(value = EndPoints.CUSTOMERS_EMAIL, method = RequestMethod.POST)
 //>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
+=======*/
+    @RequestMapping(value = EndPoints.CUSTOMERS_EXISTS_BY_EMAIL, method = RequestMethod.POST)
+//>>>>>>> feb357677f54cc8522fe49555a7569ff98e62c03
     public ResponseEntity existsCustomerByEmail(@PathVariable("email") String email){
         boolean exists = customerService.existsCustomerByEmail(email);
         return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
 /*<<<<<<< HEAD
+/*<<<<<<< HEAD
     @RequestMapping(value = "/customers/check", method = RequestMethod.POST)
     public ResponseEntity<Object> existsCustomerByIdAndEmail(@RequestBody Credentials credentials){
 =======*/
-    @RequestMapping(value = EndPoints.CUSTOMERS_CHECK, method = RequestMethod.POST)
+  /*  @RequestMapping(value = EndPoints.CUSTOMERS_CHECK, method = RequestMethod.POST)
+=======*/
+    @RequestMapping(value = EndPoints.CUSTOMERS_EXISTSBY_ID_AND_EMAIL, method = RequestMethod.POST)
+//>>>>>>> feb357677f54cc8522fe49555a7569ff98e62c03
     public ResponseEntity<Object> existsCustomerByIdAndEmail(@RequestBody EmailCredentials credentials){
 //>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
         boolean exists = customerService.existsCustomerByUserIDAndEmail(credentials.getUserId(), credentials.getEmail());

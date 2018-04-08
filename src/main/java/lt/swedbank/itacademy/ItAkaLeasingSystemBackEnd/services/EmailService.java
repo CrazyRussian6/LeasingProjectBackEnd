@@ -86,7 +86,7 @@ public class EmailService {
             recoveryMessage.setSubject("Password reset request");
             recoveryMessage.setText("To reset your password, click the link below:\n" + recoveryUrl);
 
-            //sendEmail(recoveryMessage);
+            sendEmail(recoveryMessage);
             resetTokenService.addToken(token);
 
             return new ResponseEntity<>("Password request successful", HttpStatus.OK);

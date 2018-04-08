@@ -43,12 +43,16 @@ public class VehicleLeasingController {
     }
 
 /*<<<<<<< HEAD
+/*<<<<<<< HEAD
     @RequestMapping(value = "/vehicleLeasings/{id}")
     public List<VehicleLeasingResponse> getAllVehicleLeasingsByID(@PathVariable("id") String id){
         return vehicleLeasingService.findVehicleLeasingsByCustomerID(id);
     }
 =======*/
-    @RequestMapping(value = EndPoints.VEHICLE_LEASINGS_ID, method = RequestMethod.GET)
+ /*   @RequestMapping(value = EndPoints.VEHICLE_LEASINGS_ID, method = RequestMethod.GET)
+=======*/
+    @RequestMapping(value = EndPoints.VEHICLE_LEASINGS_GET_BY_ID, method = RequestMethod.GET)
+//>>>>>>> feb357677f54cc8522fe49555a7569ff98e62c03
     public List<VehicleLeasing> getAllVehicleLeasingsByID(@PathVariable("id") String id){
         return vehicleLeasingService.findVehicleLeasingsByCustomerID(id);
     }
