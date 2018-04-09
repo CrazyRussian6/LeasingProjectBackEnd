@@ -2,7 +2,7 @@ package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums;
 
 
 public enum LeasingStatus {
-    PROCESSED,
+    IN_PROGRESS,
     APPROVED,
-    DENIED
+    DENIED;
 }
