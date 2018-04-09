@@ -37,7 +37,7 @@ public class VehicleLeasingValidationTests {
                 new BigDecimal("150000"),
                 15,
                 "testCustomerID",
-                LeasingStatus.PROCESSED,
+                LeasingStatus.IN_PROGRESS,
                 "testID840840",
                 "Toyota",
                 "Avensis",

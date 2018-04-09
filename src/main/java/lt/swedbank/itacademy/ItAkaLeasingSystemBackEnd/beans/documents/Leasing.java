@@ -49,8 +49,9 @@ public class Leasing {
     private String customerID;
 
     //@NotNull(message = "leasing status must be defined")
-    private LeasingStatus leasingStatus = LeasingStatus.PROCESSED;
+    private LeasingStatus leasingStatus = LeasingStatus.IN_PROGRESS;
 
+    private boolean statusChanged = false;
 
     //@NotNull(message = "submission date must be defined")
     private String submissionDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -149,5 +150,13 @@ public class Leasing {
 
     public void setSubmissionDate(String submissionDate) {
         this.submissionDate = submissionDate;
+    }
+
+    public boolean isStatusChanged() {
+        return statusChanged;
+    }
+
+    public void setStatusChanged(boolean statusChanged) {
+        this.statusChanged = statusChanged;
     }
 }

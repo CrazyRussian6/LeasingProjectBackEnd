@@ -62,6 +62,7 @@ public class VehicleLeasingService {
         Optional<VehicleLeasing> optional = vehicleLeasingRepository.findVehicleLeasingById(leasingId);
         if(optional.isPresent()){
             optional.get().setLeasingStatus(leasing.getLeasingStatus());
+            optional.get().setStatusChanged(true);
             return vehicleLeasingRepository.save(optional.get());
         }
         else{
