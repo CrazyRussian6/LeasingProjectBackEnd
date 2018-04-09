@@ -26,7 +26,7 @@ import java.util.Date;
 /*<<<<<<< HEAD
 =======*/
 import java.util.UUID;
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
+
 
 @Service
 public class EmailService {
