@@ -1,5 +1,6 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd;
 
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.enums.LeasingStatus;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.config.JwtFilter;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.EndPoints;
 import org.springframework.boot.SpringApplication;
