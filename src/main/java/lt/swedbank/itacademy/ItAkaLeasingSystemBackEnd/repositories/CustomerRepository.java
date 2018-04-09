@@ -26,4 +26,6 @@ public interface CustomerRepository extends CrudRepository<Customer, String>{
 
     boolean existsCustomerByUserIDAndEmail(String userID, String email);
 
+    Optional<Customer> findCustomerByUserIDAndEmail(String userID, String email);
+
 }
