@@ -14,7 +14,7 @@ public class EndPoints {
     public static final String CUSTOMERS_CHANGE_PASSWORD = "/customers/change/password";
     public static final String CUSTOMERS_CHANGE_FORGOT = "customers/change/forgot";
 
-    public static final String CUSTOMERS_FORGOTPASSWORD_EMAIL = "customers/forgotpassword{email}";
+    public static final String CUSTOMERS_FORGOTPASSWORD_CREDS = "customers/forgotpassword";
     public static final String CUSTOMERS_RESETPASSWORDVAL = "customers/resetpasswordval";
 
     public static final String VEHICLES = "/vehicles";
@@ -41,7 +41,7 @@ public class EndPoints {
             OFFICER_LOGIN,
             CUSTOMERS_CHANGE_PASSWORD,
             CUSTOMERS_CHANGE_FORGOT,
-            CUSTOMERS_FORGOTPASSWORD_EMAIL,
+            CUSTOMERS_FORGOTPASSWORD_CREDS,
             CUSTOMERS_RESETPASSWORDVAL,
             VEHICLES,
             VEHICLES_ADD,

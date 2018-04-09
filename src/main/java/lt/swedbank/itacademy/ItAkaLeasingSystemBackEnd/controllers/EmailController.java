@@ -1,5 +1,7 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.EmailCredentials;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.LoginCredentials;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.EmailService;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.EndPoints;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,9 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
-    @RequestMapping(value= EndPoints.CUSTOMERS_FORGOTPASSWORD_EMAIL, method = RequestMethod.POST)
-    public ResponseEntity<String> forgotPassword(@PathVariable("email") String email){
-        return emailService.forgotPassword(email);
+    @RequestMapping(value= EndPoints.CUSTOMERS_FORGOTPASSWORD_CREDS, method = RequestMethod.POST)
+    public ResponseEntity<String> forgotPassword(@RequestBody EmailCredentials creds){
+        return emailService.forgotPassword(creds);
     }
 
     @RequestMapping(value = EndPoints.CUSTOMERS_RESETPASSWORDVAL, method = RequestMethod.GET)

@@ -1,6 +1,8 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.EmailCredentials;
+import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.LoginCredentials;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.tokens.PasswordResetToken;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.EndPoints;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordResetTokenUtils;
@@ -33,9 +35,10 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public ResponseEntity<String> forgotPassword(String email){
+    public ResponseEntity<String> forgotPassword(EmailCredentials creds){
 
-        Customer customer = customerService.findCustomerByEmail(email);
+        //Customer customer = customerService.findCustomerByEmail(email);
+        Customer customer = customerService.findCustomerByEmailAndID(creds.getEmail(), creds.getUserId());
         if(customer == null){
             return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
         }
@@ -66,7 +69,7 @@ public class EmailService {
 
             SimpleMailMessage recoveryMessage = new SimpleMailMessage();
             recoveryMessage.setFrom("leasingservicemail@gmail.com");
-            recoveryMessage.setTo(email);
+            recoveryMessage.setTo(creds.getEmail());
             recoveryMessage.setSubject("Reset your password");
             recoveryMessage.setText(recoveryText);
 

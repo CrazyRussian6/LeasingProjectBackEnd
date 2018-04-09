@@ -46,6 +46,10 @@ public class CustomerService{
         return customerRepository.findCustomerByUserID(userID).orElse(null);
     }
 
+    public Customer findCustomerByEmailAndID(String email, String id){
+        return customerRepository.findCustomerByUserIDAndEmail(id, email).orElse(null);
+    }
+
     public List<CustomerResponse> getAllCustomers() {
         List<CustomerResponse> responses = new ArrayList<>();
         for (Customer customer : customerRepository.findAll()) {
