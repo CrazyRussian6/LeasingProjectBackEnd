@@ -17,13 +17,6 @@ public interface CustomerRepository extends CrudRepository<Customer, String>{
 
     boolean existsCustomerByUserID(String userID);
 
-
-/*    Customer findCustomerByUserID(String userID);
-
-    boolean existsCustomerByEmail(String email);
-
-    Customer findCustomerByEmail(String email);*/
-
     Optional<Customer> findCustomerByUserID(String userID);
 
     boolean existsCustomerByEmail(String email);

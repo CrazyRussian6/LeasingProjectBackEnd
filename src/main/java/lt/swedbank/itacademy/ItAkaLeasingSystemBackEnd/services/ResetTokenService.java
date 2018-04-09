@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
-/*<<<<<<< HEAD
-=======*/
 import java.util.Optional;
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 
 @Service
 public class ResetTokenService {
@@ -27,21 +24,6 @@ public class ResetTokenService {
     }
 
     public PasswordResetToken findByToken(String token){
-/*<<<<<<< HEAD
-        return repository.findByToken(token);
-    }
-
-    public void deleteByToken(String token){
-        repository.delete(repository.findByToken(token));
-    }
-
-    public PasswordResetToken findByCustomerID(String customerID){
-        return repository.findByCustomerID(customerID);
-    }
-
-    public void deleteToken(String customerID){
-        repository.delete(repository.findByCustomerID(customerID));
-=======*/
         return repository.findByToken(token).orElse(null);
     }
 
@@ -63,6 +45,5 @@ public class ResetTokenService {
         if(optional.isPresent()){
             repository.delete(optional.get());
         }
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
     }
 }

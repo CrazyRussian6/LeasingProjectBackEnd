@@ -1,11 +1,7 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response;
 
 import java.math.BigInteger;
-/*<<<<<<< HEAD
-=======*/
 import java.util.Objects;
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
-
 /**
  * Created by Lukas on 2018-03-20.
  */
@@ -107,8 +103,7 @@ public class CustomerResponse extends Response{
     public void setPassword(String password) {
         this.password = password;
     } */
-/*<<<<<<< HEAD
-=======*/
+
 
     @Override
     public boolean equals(Object o) {
@@ -129,5 +124,4 @@ public class CustomerResponse extends Response{
 
         return Objects.hash(getId(), getEmail(), getPhoneNumber(), getAddress(), getCustomerType(), getCountry(), getUserID());
     }
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 }

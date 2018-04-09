@@ -13,7 +13,6 @@ public interface AdministratorRepository extends CrudRepository<Administrator, S
 
     List<Administrator> findAll();
 
-//    Administrator findAdministratorByUserID(String userID);
 
     Optional<Administrator> findAdministratorByUserID(String userID);
 

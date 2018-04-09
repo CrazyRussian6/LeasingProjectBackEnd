@@ -34,14 +34,6 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-/*<<<<<<< HEAD
-    @Async
-    public void sendEmail(SimpleMailMessage message){
-        mailSender.send(message);
-    }
-
-    public boolean validTimePassed(PasswordResetToken passwordResetToken, int timeoutMinutes){
-=======*/
     @Autowired
     private CustomerService customerService;
 
@@ -118,7 +110,6 @@ public class EmailService {
     }
 
     private boolean validTimePassed(PasswordResetToken passwordResetToken, int timeoutMinutes){
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
         Date lastSendDate = passwordResetToken.getSendTime();
 
         Calendar calendar = Calendar.getInstance();

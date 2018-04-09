@@ -43,8 +43,6 @@ public class BusinessCustomerResponse extends CustomerResponse{
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
-/*<<<<<<< HEAD
-=======*/
 
     @Override
     public boolean equals(Object o) {
@@ -61,5 +59,4 @@ public class BusinessCustomerResponse extends CustomerResponse{
 
         return Objects.hash(super.hashCode(), getCompanyID(), getCompanyName());
     }
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 }

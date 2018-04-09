@@ -1,26 +1,17 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services;
 
-/*<<<<<<< HEAD
-=======*/
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.Customer;
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.VehicleLeasing;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.VehicleLeasingResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.repositories.VehicleLeasingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-/*<<<<<<< HEAD
-=======*/
 import org.springframework.web.bind.annotation.RequestBody;
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-/*<<<<<<< HEAD
-=======*/
 import java.util.Optional;
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 
 @Service
 public class VehicleLeasingService {
@@ -28,12 +19,9 @@ public class VehicleLeasingService {
     @Autowired
     private VehicleLeasingRepository vehicleLeasingRepository;
 
-/*<<<<<<< HEAD
-=======*/
     @Autowired
     private CustomerService customerService;
 
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
     public VehicleLeasing addNewVehicleLeasing(@Valid VehicleLeasing vehicleLeasing) {
         VehicleLeasing newVehicleLeasing = new VehicleLeasing();
 
@@ -65,14 +53,6 @@ public class VehicleLeasingService {
         return responses;
     }
 
-/*<<<<<<< HEAD
-    public List<VehicleLeasingResponse> findVehicleLeasingsByCustomerID(String customerID) {
-        List<VehicleLeasingResponse> responses = new ArrayList<>();
-        for (VehicleLeasing vehicleLeasing : vehicleLeasingRepository.findVehicleLeasingsByCustomerID(customerID)) {
-            responses.add(new VehicleLeasingResponse(vehicleLeasing));
-        }
-        return responses;
-=======*/
     public List<VehicleLeasing> findVehicleLeasingsByCustomerID(String customerID) {
         Customer customer = customerService.findCustomerByUserID(customerID);
         return vehicleLeasingRepository.findVehicleLeasingsByCustomerID(customer.getId().toString());
@@ -87,6 +67,5 @@ public class VehicleLeasingService {
         else{
             return null;
         }
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
     }
 }

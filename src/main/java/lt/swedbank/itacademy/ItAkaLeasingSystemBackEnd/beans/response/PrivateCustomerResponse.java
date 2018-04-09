@@ -1,12 +1,8 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response;
 
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.PrivateCustomer;
-
-/*<<<<<<< HEAD
-=======*/
 import java.util.Objects;
 
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 /**
  * Created by Lukas on 2018-03-20.
  */
@@ -55,8 +51,6 @@ public class PrivateCustomerResponse extends CustomerResponse {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-/*<<<<<<< HEAD
-=======*/
 
     @Override
     public boolean equals(Object o) {
@@ -74,5 +68,4 @@ public class PrivateCustomerResponse extends CustomerResponse {
 
         return Objects.hash(super.hashCode(), getPrivateID(), getFirstName(), getLastName());
     }
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 }

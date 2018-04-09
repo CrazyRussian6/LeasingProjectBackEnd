@@ -30,14 +30,6 @@ public class AdministratorService {
     @Autowired
     AdministratorRepository administratorRepository;
 
-
-/*    public List<Administrator> getAllAdministrators(){
-        return administratorRepository.findAll();
-    }
-
-    AdministratorResponse getAdministratorByID(String userID){
-        return new AdministratorResponse(administratorRepository.findAdministratorByUserID(userID));
-*/
     @Autowired
     CustomerRepository customerRepository;
 

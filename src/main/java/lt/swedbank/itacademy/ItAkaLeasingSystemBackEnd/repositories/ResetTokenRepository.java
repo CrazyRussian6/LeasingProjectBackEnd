@@ -14,11 +14,6 @@ public interface ResetTokenRepository extends CrudRepository<PasswordResetToken,
 
     List<PasswordResetToken> findAll();
 
-
-  /*  PasswordResetToken findByToken(String token);
-
-    PasswordResetToken findByCustomerID(String customerID);*/
-
     Optional<PasswordResetToken> findByToken(String token);
 
     Optional<PasswordResetToken> findByCustomerID(String customerID);

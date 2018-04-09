@@ -1,6 +1,6 @@
 package lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.controllers;
 
-//<<<<<<< HEAD
+
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.front.Credentials;
@@ -10,7 +10,6 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.*;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.PasswordEncryption;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.UserIDGenerator;
-//=======
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.BusinessCustomer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.documents.PrivateCustomer;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.errors.ErrorDetails;
@@ -20,7 +19,6 @@ import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.CustomerRe
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.beans.response.PrivateCustomerResponse;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.services.CustomerService;
 import lt.swedbank.itacademy.ItAkaLeasingSystemBackEnd.utils.EndPoints;
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,55 +48,12 @@ public class CustomerController extends ResponseEntityExceptionHandler {
     @Autowired
     private CustomerService customerService;
 
-/*<<<<<<< HEAD
-    @RequestMapping(value = "/customers")
-=======*/
+
     @RequestMapping(value = EndPoints.CUSTOMERS)
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
     public List<CustomerResponse> getAllCustomers(){
         return customerService.getAllCustomers();
     }
 
-/*<<<<<<< HEAD
-    @RequestMapping(value = "/customers/addBusinessCustomer", method = RequestMethod.POST)
-    public BusinessCustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
-        BusinessCustomerResponse ifExists = customerService.ifExistsBusinessCustomer(customer.getCompanyID(), customer.getCompanyName());
-        if(ifExists != null){
-            return ifExists;
-        }
-
-        String generatedID = UserIDGenerator.generateRandomID(12);
-        while(customerService.existsCustomerByUserID(generatedID)){
-            generatedID = UserIDGenerator.generateRandomID(12);
-        }
-
-        String hashedPass = PasswordEncryption.encrypt(generatedID, generatedID);
-        customer.setUserID(generatedID);
-        customer.setPassword(hashedPass);
-        return new BusinessCustomerResponse(customerService.addNewBusinessCustomer(customer));
-    }
-
-    @RequestMapping(value = "/customers/addPrivateCustomer", method = RequestMethod.POST)
-    public CustomerResponse addCustomer(@Valid @RequestBody PrivateCustomer customer){
-        PrivateCustomerResponse ifExists = customerService.ifExistsPrivateCustomer(customer.getPrivateID(), customer.getFirstName(), customer.getLastName());
-        if(ifExists != null){
-            return ifExists;
-        }
-
-        String generatedID = UserIDGenerator.generateRandomID(12);
-        while(customerService.existsCustomerByUserID(generatedID)){
-            generatedID = UserIDGenerator.generateRandomID(12);
-        }
-
-        String hashedPass = PasswordEncryption.encrypt(generatedID, generatedID);
-        customer.setUserID(generatedID);
-        customer.setPassword(hashedPass);
-
-        return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
-    }
-
-    @RequestMapping(value = "/customers/{userId}", method = RequestMethod.POST)
-=======*/
     @RequestMapping(value = EndPoints.CUSTOMERS_ADD_BUSINESS_CUSTOMER, method = RequestMethod.POST)
     public BusinessCustomerResponse addCustomer(@Valid @RequestBody BusinessCustomer customer){
         return new BusinessCustomerResponse(customerService.addNewBusinessCustomer(customer));
@@ -109,53 +64,27 @@ public class CustomerController extends ResponseEntityExceptionHandler {
         return new PrivateCustomerResponse(customerService.addNewPrivateCustomer(customer));
     }
 
-/*<<<<<<< HEAD
-    @RequestMapping(value = EndPoints.CUSTOMERS_USER_ID, method = RequestMethod.POST)
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
-=======*/
     @RequestMapping(value = EndPoints.CUSTOMERS_EXISTS_BY_USER_ID, method = RequestMethod.POST)
-//>>>>>>> feb357677f54cc8522fe49555a7569ff98e62c03
     public ResponseEntity existsCustomerByID(@PathVariable("userId") String userId){
         boolean exists = customerService.existsCustomerByUserID(userId);
         return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-/*<<<<<<< HEAD
-/*<<<<<<< HEAD
-    @RequestMapping(value = "/customers/{email}", method = RequestMethod.GET)
-=======*/
-    /*@RequestMapping(value = EndPoints.CUSTOMERS_EMAIL, method = RequestMethod.POST)
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
-=======*/
+
     @RequestMapping(value = EndPoints.CUSTOMERS_EXISTS_BY_EMAIL, method = RequestMethod.POST)
-//>>>>>>> feb357677f54cc8522fe49555a7569ff98e62c03
     public ResponseEntity existsCustomerByEmail(@PathVariable("email") String email){
         boolean exists = customerService.existsCustomerByEmail(email);
         return exists ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-/*<<<<<<< HEAD
-/*<<<<<<< HEAD
-    @RequestMapping(value = "/customers/check", method = RequestMethod.POST)
-    public ResponseEntity<Object> existsCustomerByIdAndEmail(@RequestBody Credentials credentials){
-=======*/
-  /*  @RequestMapping(value = EndPoints.CUSTOMERS_CHECK, method = RequestMethod.POST)
-=======*/
     @RequestMapping(value = EndPoints.CUSTOMERS_EXISTSBY_ID_AND_EMAIL, method = RequestMethod.POST)
-//>>>>>>> feb357677f54cc8522fe49555a7569ff98e62c03
     public ResponseEntity<Object> existsCustomerByIdAndEmail(@RequestBody EmailCredentials credentials){
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
         boolean exists = customerService.existsCustomerByUserIDAndEmail(credentials.getUserId(), credentials.getEmail());
         return exists ? new ResponseEntity<>("User found", HttpStatus.OK) :
                 new ResponseEntity<>("No such user found", HttpStatus.NOT_FOUND);
     }
 
 
-/*<<<<<<< HEAD
-=======*/
-
-
-//>>>>>>> 2bfc9abe011b41dddb33e52f635fe6b884c937b6
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request){
